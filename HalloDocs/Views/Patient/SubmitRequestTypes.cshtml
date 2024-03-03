@@ -1,0 +1,35 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HalloDocs</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HalloDocs.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+
+    <div class="d-flex flex-column align-items-center container-fluid p-0">
+        <partial name="~/Views/Shared/_Header.cshtml" />
+        <div class=" patients-types d-flex flex-column justify-content-center">
+            <div class="w-100  d-flex justify-content-end align-items-start mt-5">
+                <button class="btn btn-outline-info" type="submit" onclick="window.location.href = '@Url.Action("PatientSite", "Patient")';">&lt; Back</button>
+            </div>
+            <h2 class="pb-3 align-item-start "> <strong>I am a .....</strong></h2>
+            <a class="patientanchor m-2" asp-route="PatientsTypeRequest"><strong>PATIENT</strong> </a>
+            <a class="familyacnhor m-2" asp-route="FamilyTypeRequest"><strong>FAMILY / FRIEND</strong></a>
+            <a class="concierge m-2" asp-route="ConciergeTypeRequest"><strong>CONCIERGE</strong></a>
+            <a class="bpartner m-2" asp-route="BussinesTypeRequest"><strong>BUSINESS PARTNERS</strong></a>
+
+        </div>
+    </div>
+    <partial name="~/Views/Shared/_Footer.cshtml" />
+
+</body>
+</html>
+

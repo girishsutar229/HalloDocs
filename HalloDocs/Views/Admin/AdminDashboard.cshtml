@@ -1,0 +1,297 @@
+﻿@model HalloDocs.Entities.ViewModels.AdminDashboardViewModel;
+
+@{
+    Layout = "_LayoutAdmin";
+}
+<partial name="~/Views/Shared/_AdminHeader.cshtml" />
+
+<div class="container-fluid mt-5">
+    <div class="row admindashrow">
+        <div class=" col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
+            <button class="font btn btn-lg w-100 h-100 active" id="newbtn"> <i class="bi bi-plus-circle-dotted d-none d-md-inline "></i> NEW  <p class="fw-bold fs-4 mb-0">@Model.countNew</p> </button>
+        </div>
+        <div class="col-4 col-lg-2 col-sm-4 col-md-6 mb-3 ">
+            <button class="font  btn btn-lg w-100 h-100" id="pendingbtn"><i class="bi bi-hourglass-split d-none d-md-inline"></i> PENDING<p class="fw-bold fs-4 mb-0">@Model.countPending</p></button>
+        </div>
+        <div class=" col-4 col-lg-2 col-sm-4 col-md-6 mb-3 ">
+            <button class="font btn btn-lg w-100 h-100" id="activebtn"><i class="bi bi-check2-circle d-none d-md-inline"></i> ACTIVE <p class="fw-bold fs-4 mb-0">@Model.countActive</p></button>
+        </div>
+        <div class=" col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
+            <button class="font btn btn-lg w-100 h-100" id="concludebtn"><i class="bi bi-clock-history d-none d-md-inline"></i> CONCLUDE<p class="fw-bold fs-4 mb-0">@Model.countConclude</p></button>
+        </div>
+        <div class="col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
+            <button class="font btn btn-lg w-100 h-100 " id="toclosebtn"><i class="bi bi-person-x d-none d-md-inline"></i>TO CLOSE<p class="fw-bold fs-4 mb-0">@Model.countToClose</p></button>
+        </div>
+        <div class="col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
+            <button class="font  btn btn-lg w-100 h-100" id="unpaidbtn"><i class="bi bi-coin d-none d-md-inline"></i> UNPAID<p class="fw-bold fs-4 mb-0">@Model.countUnpaid</p></button>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center align-content-center py-3">
+        <h5 class="fw-bold">Patients(<span class="fs-6 text-primary" id="patienttype"></span>) </h5>
+        <div class="d-flex">
+            <button class="btn d-flex btn-info text-white p-1"><i class="bi bi-send"></i>&nbsp;<span class="d-none d-md-block">Send Links</span></button>
+            <button class="btn d-flex btn-info text-white p-1 mx-1 mx-lg-2"><i class="bi bi-pencil-square"></i>&nbsp;<span class="d-none d-md-block">Create Requests</span></button>
+            <button class="btn d-flex btn-info text-white p-1"><i class="bi bi-box-arrow-up-right"></i>&nbsp;<span class="d-none d-md-block">Export</span></button>
+            <button class="btn d-flex btn-info text-white p-1 mx-1 mx-lg-2"><i class="bi bi-folder-symlink"></i>&nbsp;<span class="d-none d-md-block">Export All</span></button>
+            <button class="btn d-flex btn-info text-white p-1"><i class="bi bi-person"></i><span class="d-none d-md-block">Request DTY Support</span></button>
+        </div>
+    </div>
+
+    <div class="col d-flex flex-column container-fluid shadow border-0 rounded mt-3 ">
+        <div class="row flex-md-row flex-column justify-content-between align-content-center align-items-center rounded bg-white py-3 ">
+            <div class="col col-xl-6 col-md-6 col-sm-12 d-flex flex-column flex-md-row">
+                <div class="p-2 d-flex input-group m-2">
+                    <span class="input-group-text " id="search-addon"><i class="bi bi-search "></i></span>
+                    <input type="text" class="form-control dashboardsearch" id="searchbar" placeholder=" Search Patients" aria-label="Search" area-describedby="search-addon">
+                </div>
+                <div class="input-group m-3 pe-3">
+                    <span class="input-group-text" id="search-addon"><i class="bi bi-search "></i></span>
+                    <select class="form-select" aria-label="Default select example">
+                        <option value="" disabled selected>Search</option>
+                        @foreach (var regions in Model.regions)
+                        {
+                            <option value="@regions.RegionId"> @regions.Name</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="col col-xl-4 col-md-6 col-sm-12 d-flex end-0 justify-content-between align-content-center align-items-center">
+                <button class="font btn btn-outline-info h-50 d-md-block d-none">All</button>
+
+                <button class="font btn border-0 p-md-1 m-md-1 p-0 m-0 " onclick="">
+                    <span><i class="bi bi-circle-fill text-success"></i> Patient</span>
+                </button>
+                <button class="font btn border-0 p-md-1 m-md-1 p-0 m-0 " onclick="">
+                    <span><i class="bi bi-circle-fill text-warning"></i> Family/Friend</span>
+                </button>
+                <button class="font  btn border-0 p-md-1 m-md-1 p-0 m-0 " onclick="">
+                    <span><i class="bi bi-circle-fill text-danger"></i> Business</span>
+                </button>
+                <button class="font  btn border-0  p-md-1 m-md-1 p-0 m-0 me-xl-2" onclick="">
+                    <span><i class="bi bi-circle-fill text-info"></i> Concierge</span>
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive " id="statuswisedata"> </div>
+    </div>
+</div>
+
+<partial name="~/Views/Shared/_Footer.cshtml" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        load();
+        $('#newbtn').click(function () {
+            $.ajax({
+                url: "/Admin/PatientStatusNew",
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#statuswisedata").html(data);
+                    $("#patienttype").html("New");
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#statuswisedata").html('An error has occurred');
+                }
+            });
+        });
+
+
+        $('#pendingbtn').click(function () {
+            $.ajax({
+                url: "/Admin/PatientStatusPending",
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#statuswisedata").html(data);
+                    $("#patienttype").html("Pending");
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#statuswisedata").html('An error has occurred');
+                }
+            });
+        });
+
+        $('#activebtn').click(function () {
+            $.ajax({
+                url: "/Admin/PatientStatusActive",
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#statuswisedata").html(data);
+                    $("#patienttype").html("Active");
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#statuswisedata").html('An error has occurred');
+                }
+            });
+        });
+
+        $('#concludebtn').click(function () {
+            $.ajax({
+                url: "/Admin/PatientStatusConclude",
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#statuswisedata").html(data);
+                    $("#patienttype").html("Conclude");
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#statuswisedata").html('An error has occurred');
+                }
+            });
+        });
+
+        $('#toclosebtn').click(function () {
+            $.ajax({
+                url: "/Admin/PatientStatusToClose",
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#statuswisedata").html(data);
+                    $("#patienttype").html("To Close");
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#statuswisedata").html('An error has occurred');
+                }
+            });
+        });
+
+        $('#unpaidbtn').click(function () {
+            $.ajax({
+                url: "/Admin/PatientStatusUnpaid",
+                type: "POST",
+                dataType: "html",
+                success: function (data) {
+                    $("#statuswisedata").html(data);
+                    $("#patienttype").html("Unpaid");
+                },
+                error: function () {
+                    alert("No Projects Found");
+                    $("#statuswisedata").html('An error has occurred');
+                }
+            });
+        });
+    });
+
+    function load() {
+        $.ajax({
+            url: "/Admin/PatientStatusNew",
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#statuswisedata").html(data);
+                $("#patienttype").html("New");
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#statuswisedata").html('An error has occurred');
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        // $("#searchbar").on("keyup", function () {
+        //     var value = $(this).val().toLowerCase();
+        //     $("Table tr").filter(function () {
+        //         $(this).toggle($(this).find('td:first-child').text().toLowerCase().indexOf(value) > -1)
+        //     });
+        // });
+
+        document.getElementById("searchbar").addEventListener("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("Tbody tr").filter(function () {
+                $(this).toggle($(this).find('td').text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+<script>
+    var newBtn = document.getElementById("newbtn");
+    var pendingBtn = document.getElementById("pendingbtn");
+    var activeBtn = document.getElementById("activebtn");
+    var concludeBtn = document.getElementById("concludebtn");
+    var tocloseBtn = document.getElementById("toclosebtn");
+    var unpaidBtn = document.getElementById("unpaidbtn");
+    var total = document.querySelectorAll("div.admindashrow button.btn-lg");
+    var count = total.length;
+
+    newBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "newbtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    pendingBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "pendingbtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    activeBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "activebtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    concludeBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "concludebtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    tocloseBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "toclosebtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    unpaidBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "unpaidbtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+</script>
+

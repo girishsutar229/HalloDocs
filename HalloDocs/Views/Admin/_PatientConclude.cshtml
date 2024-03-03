@@ -1,0 +1,81 @@
+﻿@using HalloDocs.Entities.Enums;
+
+<table class="table">
+    <thead class="table-secondary">
+        <tr class="p-0 m-0">
+            <th>Name</th>
+            <th>Date Of Birth</th>
+            <th>Physician Name</th>
+            <th>Date Of Service</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Chat With</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var request in Model)
+            {
+                <tr id="@((TypesOfRequest)request.RequestTypeId)">
+
+                    <td>@request.ClientFirstName @request.ClientLastName</td>
+                    <td><button class="btn border m-0"><i class="bi bi-envelope"></i> </button> &nbsp; @request.DateOfBirth.ToString("MMM dd,yyyy") (@request.Age) </td>
+                    <td>Physician Name</td>
+                    <td>Date Of Service</td>
+
+                    @if (request.RequestTypeId == 1)
+                    {
+                        <td><button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button></td>
+                    }
+                    @if (request.RequestTypeId == 2)
+                    {
+                        <td class="d-flex flex-column">
+                            <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button>
+                            <p class="p-0 m-0">(Patient)</p>
+                            <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.RequestCountryCode @request.RequestPhoneNumber</button>
+                            <p class="p-0 m-0">(Family/Friend)</p>
+                        </td>
+                    }
+                    @if (request.RequestTypeId == 3)
+                    {
+                        <td>
+                            <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button>
+                            <p class="p-0 m-0">(Patient)</p>
+                            <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.RequestCountryCode @request.RequestPhoneNumber</button>
+                            <p class="p-0 m-0">(Concierge)</p>
+                        </td>
+                    }
+                    @if (request.RequestTypeId == 4)
+                    {
+                        <td class="d-flex flex-column">
+                            <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button>
+                            <p class="p-0 m-0">(Patient)</p>
+                            <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.RequestCountryCode @request.RequestPhoneNumber</button>
+                            <p class="p-0 m-0">(Bussiness)</p>
+
+                        </td>
+                    }
+
+                    <td>@request.ClientAddress</td>
+                    <td>
+                        <button class="btn border text-white"><i class="bi  bi-person-fill text-black p-1"></i>Patient</button>
+                        <button class="btn border text-white"><i class="bi bi-person-circle text-black p-1"></i>Provider</button>
+                    </td>
+                    <td>
+                        <button class="btn border text-white dropdown-toggle" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">Actions</button>
+                        <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-medical"></i> View Case</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-arrow-up"></i> View Uploads</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-richtext"></i> View Notes</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-journal-check"></i> Orders </a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text"></i> Doctors Note </a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text"></i> Encounter</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

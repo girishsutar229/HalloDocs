@@ -1,0 +1,143 @@
+﻿body {
+    height: 100Vh;
+    overflow-y: auto;
+}
+
+hr{
+    padding:0px;
+    margin:0px;
+}
+.nav-link:not(.active) {
+    color: #777;
+}
+
+.nav-link.active {
+    border-bottom: 3px solid #0dcaf0;
+    color: #0dcaf0;
+}
+
+.viewcasedotteddiv {
+    border: 1px dashed
+}
+.iti {
+    margin:0px;
+    padding:0;
+    width: 100% ;
+    height: 100% ;
+}
+
+
+.admindashrow button.btn-lg {
+    justify-content: start;
+    align-items: start;
+    text-align: start;
+}
+/*
+.dashboardsearch {
+    background: url('../images/Admin/search_icon.png') no-repeat;
+    background-size: 20px 20px;
+    background-position: 4px 8px;
+    width: 200px;
+    padding-left: 25px;
+}
+*/
+#newbtn {
+    background-color: #E9EAEF;
+    border: 1px solid #203F9A;
+    color: #203F9A;
+}
+
+    #newbtn.active {
+        background-color: #203F9A;
+        border: 1px solid #203F9A;
+        color: white;
+    }
+
+
+#pendingbtn {
+    background-color: #E5F2F8;
+    border: 1px solid #00ADEF;
+    color: #00ADEF;
+}
+
+    #pendingbtn.active {
+        background-color: #00ADEF;
+        border: 1px solid #00ADEF;
+        color: white;
+    }
+
+#activebtn {
+    background-color: #E9F0E8;
+    border: 1px solid #228C20;
+    color: #228C20;
+}
+
+    #activebtn.active {
+        background-color: #228C20;
+        border: 1px solid #228C20;
+        color: white;
+    }
+
+#concludebtn {
+    background-color: #F7E6EE;
+    border: 1px solid #DA0F82;
+    color: #DA0F82;
+}
+
+    #concludebtn.active {
+        background-color: #DA0F82;
+        border: 1px solid #DA0F82;
+        color: white;
+    }
+
+#toclosebtn {
+    background-color: #E5EEF5;
+    border: 1px solid #0370D7;
+    color: #0370D7;
+}
+
+    #toclosebtn.active {
+        background-color: #0370D7;
+        border: 1px solid #0370D7;
+        color: white;
+    }
+
+#unpaidbtn {
+    border: 1px solid #9966CD;
+    background-color: #EFEEF4;
+    color: #9966CD;
+}
+
+    #unpaidbtn.active {
+        border: 1px solid #9966CD;
+        background-color: #9966CD;
+        color: white;
+    }
+
+@media only screen and (max-width: 436px) {
+    .font {
+        font-size: 12px;
+    }
+}
+
+#Patient {
+    background-color: #14A44D;
+    color: #FFFFFF;
+}
+
+#FamilyFriend {
+    background-color: #E4A11B;
+    color: #FFFFFF;
+}
+
+
+#Bussiness {
+    background-color: #DC4C64;
+    color: #FFFFFF;
+}
+
+
+#Concierge {
+    background-color: #54B4D3;
+    color: #FFFFFF;
+}

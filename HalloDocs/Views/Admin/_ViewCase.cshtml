@@ -1,0 +1,153 @@
+﻿@{
+    Layout = "_LayoutAdmin";
+}
+
+<partial name="~/Views/Shared/_AdminHeader.cshtml" />
+<div class="container mt-2 d-flex flex-column justify-content-between align-items-center pb-4">
+    <div class=" py-4">
+        <div class="backbtn w-100 px-4 d-flex justify-content-between align-items-start">
+            <h3 class="fs-4 fw-bold">
+                New Request
+                @if (Model.RequestTypeId == 1)
+                {
+                    <span class="badge bg-success rounded-pill">Patient</span>
+                }
+                @if (Model.RequestTypeId == 2)
+                {
+                    <span class="badge bg-warning rounded-pill">Family/Friend</span>
+                }
+                @if (Model.RequestTypeId == 3)
+                {
+                    <span class="badge bg-danger rounded-pill">Concierge</span>
+                }
+                @if (Model.RequestTypeId == 4)
+                {
+                    <span class="badge bg-info rounded-pill">Business</span>
+                }
+            </h3>
+            <a asp-route="AdminDashboard" class="btn btn-outline-info p-1"> &lt; Back  </a>
+        </div>
+
+        <form asp-controller="Admin" asp-action="ViewCasee" class="p-4 m-4 shadow boder-0 bg-white" enctype="multipart/form-data" method="post">
+
+            <h5 class="pt-1">Patient Information</h5>
+            <p class="text-muted ">Confirmation Number</p>
+            <p class="text-info">@Model.ConfirmationNumber</p>
+
+            <div class="row input-group justify-content-between align-items-center">
+                <div class="col-12 mb-3 ">
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control h-100" id="PatientSymptoms" placeholder="Symptoms" value="" disabled></textarea>
+                        <label> Patient's Notes </label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="border-bottom mb-3 mt-2 text-muted viewcasedotteddiv "></div>
+
+                <div class="col-12 col-md-6 col-lg-6 mb-3 ">
+                    <div class="form-floating ">
+                        <input type="text" class="form-control field" id="PatientFirstName" placeholder="First Name" value="@Model.ClientFirstName" disabled>
+                        <label for="PatientFirstName">First Name</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class=" col-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-floating ">
+                        <input type="text" class="form-control field" id="PatientLastName" placeholder="Last Name" value="@Model.ClientLastName" disabled>
+                        <label for="PatientLastName">Last Name</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class=" col-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-floating ">
+                        <input class="form-control field" id="PatientDOB" placeholder="DD/MM/YYYY" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@Model.DateOfBirth" disabled>
+                        <label for="PatientDOB">Date of Birth</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+         
+                <div class="col-12 col-md-6 col-lg-6 mb-3  d-flex flex-row">
+                    <div class="col-10 form-floating ">
+                        <input id="PatientCountryCode" type="hidden" />
+                        <input type="tel" class="form-control m-0" id="PatientPhoneNumber" value="+@Model.ClientCountryCode@Model.ClientPhoneNumber" onchange="patientvalidatePhoneNumber()" disabled>
+                        <span id="patienttextChange"></span>
+                    </div>
+                    <div class="col-2 ">
+                        <button class="btn btn-outline-info field" disabled><i class="bi bi-telephone"></i></button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 mb-3 ">
+                    <div class="form-floating ">
+                        <input value="@Model.ClientEmail" class="form-control" id="Email" placeholder="Email " disabled>
+                        <label>Your Email</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <h5 class="pt-4">Location Information</h5>
+            <div class="row input-group mb-3 justify-content-between align-items-center">
+                <div class=" col-12 col-md-6 col-lg-6 mb-3 row2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control field" id="PatientRegion" placeholder="Region" disabled>
+                        <label for="PatientRegion">Region</label>
+                    </div>
+                </div>
+                <div class=" col-12 col-md-6 col-lg-6 mb-3 row2 d-flex">
+                    <div class="col-10 mx-0">
+                        <div class="form-floating ">
+                            <input type="text" class="form-control field" id="BusinessName" placeholder="Business Name / Address" disabled>
+                            <label for="BusinessName">Business Name / Address</label>
+                        </div>
+                    </div>
+                    <div class="col-2 mx-0">
+                        <a id="getLocation" onclick="initMap()" class="btn btn-outline-info "><i class="bi bi-geo-alt"></i></a>
+                        <input type="text" id="getlatitude" hidden />
+                        <input type="text" id="getlongitude" hidden />
+                        <div id="googleMap"></div>
+                    </div>
+                </div>
+                <div class=" col-12 col-md-6 col-lg-6 mb-3 row2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control field" id="PatientRoomNumber" value="@Model.ClientAddress" placeholder="Room / Suite" disabled>
+                        <label for="PatientRoomNumber">Room #</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn d-flex justify-content-end p-2">
+                <button type="reset" class="btn btn-outline-info edit" id="editbutton">Edit</button>
+                <button type="button" class="btn btn-info mx-2 submit d-none" id="viewnotesbutton">View Notes</button>
+                @if (Model.Status == 1)
+                {
+                    <button type="submit" class="btn btn-info submit d-none" onclick="checkValidation()" id="assignbutton">Assign</button>
+                }
+                <button type="button" class="btn btn-danger cancel d-none" asp-action="AdminDashboard" asp-controller="Admin" id="cancelbutton">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<partial name="~/Views/Shared/_Footer.cshtml" />
+
+
+<script>
+    var fields = document.querySelectorAll(".field");
+    var editbtn = document.getElementById("editbutton");
+    var cancelbtn = document.getElementById("cancelbutton");
+    var assignbtn = document.getElementById("assignbutton");
+    var viewnotesbtn = document.getElementById("viewnotesbutton");
+    editbtn.addEventListener("click", () => {
+        editbtn.classList.add("d-none");
+        cancelbtn.classList.remove("d-none");
+        assignbtn.classList.remove("d-none");
+        viewnotesbtn.classList.remove("d-none");
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].disabled = !fields[i].disabled;
+        }
+    });
+</script>
+
+                
+                

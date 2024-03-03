@@ -1,0 +1,20 @@
+﻿@model HalloDocs.Entities.ViewModels.AdminDashboardViewModel;
+
+@{
+    Layout = "_LayoutAdmin";
+}
+<partial name="~/Views/Shared/_AdminHeader.cshtml" />
+
+<h5>Access</h5>
+
+<partial name="~/Views/Shared/_Footer.cshtml" />
+
+<script>
+    document.getElementById("admindashboard").classList.remove("active");
+    document.getElementById("providerlocation").classList.remove("active");
+    document.getElementById("profile").classList.remove("active");
+    document.getElementById("providers").classList.remove("active");
+    document.getElementById("partners").classList.remove("active");
+    document.getElementById("access").classList.add("active");
+    document.getElementById("records").classList.remove("active");
+</script>

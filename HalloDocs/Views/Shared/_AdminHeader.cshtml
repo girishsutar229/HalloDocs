@@ -1,0 +1,53 @@
+﻿
+<header class="container-fluid sticky-top bg-white p-0">
+    <div class="header-all Small bg-white d-flex justify-content-between align-items-center sticky-top bg-white align-text-center px-2 ">
+        <button class="navbar-toggler d-md-none p-0 m-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <i class="bi bi-list btn btn-outline-info"></i>
+        </button>
+        <a class="navbar-brand ">
+            <img src="~/SRS Screen Shorts/Fig56. Patient site 11.png" alt="" width="100" height="60">
+        </a>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="align-items-center d-none d-md-block" id="welcome-text"><strong>Welcome </strong> Girish Suthar</div>
+            <button type="button" class="btn btn-outline-info justify-content-center mx-3 d-none d-md-block " onclick="window.location.href = '@Url.Action("PatientLogout", "Patient")';">LogOut</button>
+            <button type="button" class="btn btn-outline-info justify-content-center mx-2 d-block d-md-none" onclick="window.location.href = '@Url.Action("PatientLogout", "Patient")';"><i class="bi bi-box-arrow-right"></i></button> 
+            <button type="button" class="btn btn-outline-info  " onclick="darkmode()"><i class="bi bi-moon moon-icon "></i></button>
+        </div>
+    </div>
+    <hr class=" m-0 d-none d-md-block" />
+    <nav class="navbar navbar-expand-md shadow pb-0" aria-label="Offcanvas navbar medium">
+        <div class="container-fluid">
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Welcome <strong> Admin admin</strong></h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav nav-underline flex-grow-1">
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-bold active" asp-action="AdminDashboard" asp-controller="Admin" id="admindashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-bold" asp-action="ProviderLocation" asp-controller="Admin" id="providerlocation">Provider Location</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-bold" asp-action="Profile" asp-controller="Admin" id="profile">My Profile</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-bold" asp-action="Providers" asp-controller="Admin" id="providers">Providers</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-bold" asp-action="Partners" asp-controller="Admin" id="partners">Partners</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-bold" asp-action="Access" asp-controller="Admin" id="access">Access</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" asp-action="Records" asp-controller="Admin" id="records">Records</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>  

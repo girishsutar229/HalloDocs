@@ -43,6 +43,20 @@ namespace HalloDocs.Entities.ViewModels
 
         [StringLength(500)]
         public string? ClientAddress { get; set; }
+        [StringLength(100)]
+        public string? ClientStreet { get; set; }
+
+        [StringLength(100)]
+        public string? ClientCity { get; set; }
+
+        [StringLength(100)]
+        public string? ClientState { get; set; }
+
+        [StringLength(10)]
+        public string? ClientZipCode { get; set; }
+
+        [StringLength(100)]
+        public string? PatientRoom { get; set; }
 
         public DateTime? DateOfService { get; set; }
 

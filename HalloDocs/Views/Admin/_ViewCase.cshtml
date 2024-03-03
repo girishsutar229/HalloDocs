@@ -18,11 +18,11 @@
                 }
                 @if (Model.RequestTypeId == 3)
                 {
-                    <span class="badge bg-danger rounded-pill">Concierge</span>
+                    <span class="badge bg-info rounded-pill">Concierge</span>
                 }
                 @if (Model.RequestTypeId == 4)
                 {
-                    <span class="badge bg-info rounded-pill">Business</span>
+                    <span class="badge bg-danger rounded-pill">Business</span>
                 }
             </h3>
             <a asp-route="AdminDashboard" class="btn btn-outline-info p-1"> &lt; Back  </a>
@@ -37,7 +37,7 @@
             <div class="row input-group justify-content-between align-items-center">
                 <div class="col-12 mb-3 ">
                     <div class="form-floating mb-3">
-                        <textarea class="form-control h-100" id="PatientSymptoms" placeholder="Symptoms" value="" disabled></textarea>
+                        <textarea class="form-control h-100" id="PatientSymptoms" placeholder="Symptoms" value="@Model" disabled></textarea>
                         <label> Patient's Notes </label>
                         <span class="text-danger"></span>
                     </div>
@@ -90,7 +90,7 @@
             <div class="row input-group mb-3 justify-content-between align-items-center">
                 <div class=" col-12 col-md-6 col-lg-6 mb-3 row2">
                     <div class="form-floating">
-                        <input type="text" class="form-control field" id="PatientRegion" placeholder="Region" disabled>
+                        <input type="text" class="form-control field" id="PatientRegion" placeholder="Region" value="@Model.ClientState" disabled>
                         <label for="PatientRegion">Region</label>
                     </div>
                 </div>
@@ -118,10 +118,10 @@
 
             <div class="btn d-flex justify-content-end p-2">
                 <button type="reset" class="btn btn-outline-info edit" id="editbutton">Edit</button>
-                <button type="button" class="btn btn-info mx-2 submit d-none" id="viewnotesbutton">View Notes</button>
+                <button type="button" class="btn btn-info submit d-none" id="viewnotesbutton">View Notes</button>
                 @if (Model.Status == 1)
                 {
-                    <button type="submit" class="btn btn-info submit d-none" onclick="checkValidation()" id="assignbutton">Assign</button>
+                    <button type="submit" class="btn btn-info submit mx-2  d-none" onclick="checkValidation()" id="assignbutton">Assign</button>
                 }
                 <button type="button" class="btn btn-danger cancel d-none" asp-action="AdminDashboard" asp-controller="Admin" id="cancelbutton">Cancel</button>
             </div>

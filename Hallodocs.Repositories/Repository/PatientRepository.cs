@@ -260,6 +260,7 @@ namespace HalloDocs.Repositories.Repository
             var requestCheck = _context.Requests.OrderBy(e => e.RequestId).LastOrDefault(e => e.Email == model.Email);
             var newRequestClient = new RequestClient
             {
+                
                 RequestId = requestCheck.RequestId,
                 FirstName = model.PatientFirstName,
                 LastName = model.PatientLastName,
@@ -270,8 +271,13 @@ namespace HalloDocs.Repositories.Repository
                 IntDate = model.PatientDateOfBirth.Day,
                 IntYear = model.PatientDateOfBirth.Year,
                 StrMonth = model.PatientDateOfBirth.ToString("MMMM"),
+                ZipCode = model.ZipCode,
+                State = model.State,
+                City = model.City,
+                Street = model.Street,
                 Address = model.Street + " ," + model.City + " ," + model.State + "-" + model.ZipCode,
                 Location = model.PatientRoomNumber,
+                
 
             };
             _context.RequestClients.Add(newRequestClient);

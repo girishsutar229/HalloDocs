@@ -4,6 +4,7 @@ using HalloDocs.Entities.ViewModels;
 using HalloDocs.Repositories.Repository.Interface;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,30 @@ namespace HalloDocs.Repositories.Repository
         {
             _context = context;
         }
+
+        //public string AdminLogin(AdminLoginViewModel model)
+        //{
+        //    var adminemail = _context.Admins.Any(a => a.Email == model.Email);
+
+        //    if (!adminemail)
+        //    {
+        //        var admin = new Admin
+        //        {
+        //            FirstName = "Girish Gajjar",
+        //            AspNetUserId = 1,
+        //            Email = "girish@gmail.com",
+        //            CreatedDate = DateTime.Now,
+
+        //        };
+        //        _context.Admins.Add(admin);
+        //        _context.SaveChanges();
+        //        return "Success";
+        //    }
+        //    else
+        //    {
+        //        return "userExits";
+        //    }
+        //}
 
         public List<AdminDashboardViewModel> GetNewRequest()
         {
@@ -48,7 +73,7 @@ namespace HalloDocs.Repositories.Repository
 
             return data;
         }
-
+     
         public List<AdminDashboardViewModel> GetPendingRequest()
         {
             var data = (from request in _context.Requests
@@ -186,8 +211,18 @@ namespace HalloDocs.Repositories.Repository
             return data;
         }
 
-      
+        public object GetViewCase(ViewCaseViewModel model, int reqId)
+        {
+            ViewCaseViewModel viewCaseData = new ViewCaseViewModel();
+            viewCaseData.requestclient = _context.RequestClients.FirstOrDefault(a => a.RequestId == reqId);
+            var requestData = _context.Requests.FirstOrDefault(a => a.RequestId == viewCaseData.requestclient.RequestId);
+            viewCaseData.requestType = requestData.RequestTypeId;
+            viewCaseData.status = requestData.Status;
+            viewCaseData.ConfirmationNumber = requestData.ConfirmationNumber;
 
-    
+            return viewCaseData;
+        }
+
+
     }
 }

@@ -101,6 +101,7 @@ namespace HalloDocs.Repositories.Repository
                 RequestId = Request.RequestId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                PatientSymptoms = model.Symptoms,
                 PhoneNumber = model.PhoneNumber,
                 ContryCode = model.ContryCode,
                 Email = model.Email,
@@ -182,7 +183,8 @@ namespace HalloDocs.Repositories.Repository
                 RequestId = requestCheck.RequestId,
                 FirstName = model.PatientFirstName,
                 LastName = model.PatientLastName,
-                PhoneNumber = Convert.ToString(model.PatientPhoneNumber),
+                PatientSymptoms = model.PatientSymptoms,
+                PhoneNumber = model.PatientPhoneNumber,
                 ContryCode = model.PatientContryCode,
                 Email = model.PatientEmail,
                 DateOfBirth = model.PatientDateOfBirth,
@@ -264,6 +266,7 @@ namespace HalloDocs.Repositories.Repository
                 RequestId = requestCheck.RequestId,
                 FirstName = model.PatientFirstName,
                 LastName = model.PatientLastName,
+                PatientSymptoms = model.PatientSymptoms,
                 PhoneNumber = model.PatientPhoneNumber,
                 ContryCode = model.PatientContryCode,
                 Email = model.PatientEmail,
@@ -318,6 +321,7 @@ namespace HalloDocs.Repositories.Repository
                 RequestId = requestCheck.RequestId,
                 FirstName = model.PatientFirstName,
                 LastName = model.PatientLastName,
+                PatientSymptoms = model.PatientSymptoms,
                 PhoneNumber = model.PatientPhoneNumber,
                 ContryCode = model.PatientContryCode,
                 Email = model.PatientEmail,
@@ -331,6 +335,7 @@ namespace HalloDocs.Repositories.Repository
                 Street = model.PatientStreet,
                 Address = model.PatientStreet + " ," + model.PatientCity + " ," + model.PatientState + "-" + model.PatientZipCode,
                 Location = model.PatientRoomNumber,
+
             };
 
             _context.RequestClients.Add(newRequestClient);
@@ -506,6 +511,7 @@ namespace HalloDocs.Repositories.Repository
                     RequestId = requestCheck.RequestId,
                     FirstName = model.PatientFirstName,
                     LastName = model.PatientLastName,
+                    PatientSymptoms=model.PatientSymptoms,
                     PhoneNumber = model.PatientPhoneNumber,
                     ContryCode = model.PatientContryCode,
                     Email = model.PatientEmail,
@@ -592,6 +598,7 @@ namespace HalloDocs.Repositories.Repository
                     RequestId = requestCheck.RequestId,
                     FirstName = model.PatientFirstName,
                     LastName = model.PatientLastName,
+                    PatientSymptoms=model.PatientSymptoms,
                     PhoneNumber = model.PatientPhoneNumber,
                     ContryCode = model.PatientContryCode,
                     Email = model.PatientEmail,

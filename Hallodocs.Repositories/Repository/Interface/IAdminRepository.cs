@@ -10,6 +10,7 @@ namespace HalloDocs.Repositories.Repository.Interface
 {
     public interface IAdminRepository
     {
+        //public string AdminLogin(AdminLoginViewModel model);
         public List<AdminDashboardViewModel> GetNewRequest();
 
         public List<AdminDashboardViewModel> GetPendingRequest();
@@ -22,7 +23,7 @@ namespace HalloDocs.Repositories.Repository.Interface
 
         public List<AdminDashboardViewModel> GetUnPaidRequest();
 
-        public AdminDashboardViewModel ViewCase(int reqId);
+        public object GetViewCase(ViewCaseViewModel model, int reqId);
 
 
     }

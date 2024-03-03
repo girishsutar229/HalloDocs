@@ -3,6 +3,14 @@
     overflow-y: auto;
 }
 
+.icon {
+    position: absolute;
+    right: 5%;
+    top: 23%
+}
+
+
+/*ADMINDASHBOARD*/
 hr{
     padding:0px;
     margin:0px;

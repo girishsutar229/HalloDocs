@@ -11,7 +11,6 @@ namespace HalloDocs.Entities.ViewModels
 {
     public class AdminDashboardViewModel
     {
-        public IEnumerable<Region> regions { get; set; }
 
         public int RequestId { get; set; }
 
@@ -21,6 +20,7 @@ namespace HalloDocs.Entities.ViewModels
 
         public string RequestLastName { get; set; } = null!;
 
+        public string? PatientSymptoms { get; set; }
         public string PhysicianName { get; set; } = null!;
 
         public DateOnly DateOfBirth { get; set; }
@@ -72,6 +72,9 @@ namespace HalloDocs.Entities.ViewModels
 
         [StringLength(20)]
         public string? ConfirmationNumber { get; set; }
+
+
+        public IEnumerable<Region> regions { get; set; }
 
         public int? countNew { get; set; }
 

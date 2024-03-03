@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace HalloDocs.Entities.DataModels;
@@ -70,6 +71,9 @@ public partial class RequestClient
 
     [StringLength(10)]
     public string? ZipCode { get; set; }
+
+    [StringLength(200)]
+    public string? PatientSymptoms { get; set; }
 
     public short? CommunicationType { get; set; }
 

@@ -62,13 +62,16 @@
                     <td><button class="btn border text-white"><i class="bi bi-person-circle text-black p-1"></i>Provider</button></td>
                     <td>
                         <button class="btn border text-white dropdown-toggle" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">Actions</button>
+                     
+
                         <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-text"></i> Assign Case</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-x-circle"></i> Cancle Case</a></li>
-                            <li><a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-reqId="@request.RequestId"><i class="bi bi-file-earmark-medical"></i> View Case</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-richtext"></i> View Notes</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-slash-circle"></i> Block Patient</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assignCase" onclick="assignModal(@request.RequestId)"><i class="bi bi-file-text"></i> Assign Case</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cancleCase" onclick="cancelModal(@request.RequestId,'@request.ClientFirstName')"><i class="bi bi-x-circle"></i> Cancle Case</a></li>
+                            <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewCase" asp-controller="Admin"><i class="bi bi-file-earmark-medical"></i> View Case</a></li>
+                            <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewNotes" asp-controller="Admin"><i class="bi bi-file-earmark-richtext"></i> View Notes</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#blockCase" onclick="blockModal(@request.RequestId,'@request.ClientFirstName','@request.ClientEmail','@request.ClientPhoneNumber')"><i class="bi bi-slash-circle"></i> Block Patient</a></li>
                         </ul>
+
                     </td>
                 </tr>
             }
@@ -76,3 +79,11 @@
        
     </tbody>
 </table>
+@* 
+<ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+    <li><a class="dropdown-item" href="#"><i class="bi bi-file-text"></i> Assign Case</a></li>
+    <li><a class="dropdown-item" href="#"><i class="bi bi-x-circle"></i> Cancle Case</a></li>
+    <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewCase" asp-controller="Admin"><i class="bi bi-file-earmark-medical"></i> View Case</a></li>
+    <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewNotes" asp-controller="Admin"><i class="bi bi-file-earmark-richtext"></i> View Notes</a></li>
+    <li><a class="dropdown-item" href="#"><i class="bi bi-slash-circle"></i> Block Patient</a></li>
+</ul> *@

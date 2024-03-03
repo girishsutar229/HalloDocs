@@ -1,0 +1,52 @@
+﻿@model HalloDocs.Entities.ViewModels.ViewNotesViewModel;
+
+@{
+    Layout = "_LayoutAdmin";
+}
+<partial name="~/Views/Shared/_AdminHeader.cshtml" />
+<div class="container mt-2 d-flex flex-column justify-content-between align-items-center pb-4">
+    <div class="container-fluid mt-4">
+        <div class="d-flex justify-content-between align-items-start">
+            <h4 class=" fw-bold">Notes  </h4>
+            <a asp-route="AdminDashboard" class="btn btn-outline-info p-1"> &lt; Back  </a>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12 col-md-6 col-lg-6 mb-3">
+                <div class="bg-white shadow rounded px-2 py-1">
+                    <div class="d-flex align-content-center align-items-center ">
+                        <i class="bi bi-arrow-left-right h4 me-3"></i>
+                        <p class="fs-5 fw-bold"> Transfer Notes</p>
+                    </div>
+                    <p>Notes Data</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 mb-3">
+                <div class="bg-white shadow rounded px-2 py-1">
+                    <div class="d-flex align-content-center align-items-center ">
+                        <i class="bi bi-person-circle h4 me-3"></i>
+                        <p class="fs-5 fw-bold"> Physician Notes</p>
+                    </div>
+                    <p>@Model.physicianNotes</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 mb-3">
+                <div class="bg-white shadow rounded px-2 py-1">
+                    <div class="d-flex align-content-center align-items-center ">
+                        <i class="bi bi-person-fill h4 me-3"></i>
+                        <p class="fs-5 fw-bold"> Admin Notes</p>
+                    </div>
+                    <p>@Model.adminNotes</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow rounded p-3 m-1">
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Additional Notes"></textarea>
+            </div>
+            <div class="d-flex justify-content-end ">
+                <button type="submit" class="btn btn-info">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

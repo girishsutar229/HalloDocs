@@ -84,35 +84,14 @@ namespace HalloDocs.Controllers
         }
      
 
-        public IActionResult ProviderLocation()
-        {
-          return View();
-
-        }
-        public IActionResult Profile()
-        {
-            return View();
-
         }
         public IActionResult Providers()
         {
             return View();
 
         }
-        public IActionResult Partners()
-        {
-            return View();
 
-        }
-        public IActionResult Access()
-        {
-            return View();
 
-        }
-        public IActionResult Records()
-        {
-            return View();
-        }
     
     }
 }

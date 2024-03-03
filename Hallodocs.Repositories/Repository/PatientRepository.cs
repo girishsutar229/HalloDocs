@@ -277,8 +277,6 @@ namespace HalloDocs.Repositories.Repository
                 Street = model.Street,
                 Address = model.Street + " ," + model.City + " ," + model.State + "-" + model.ZipCode,
                 Location = model.PatientRoomNumber,
-                
-
             };
             _context.RequestClients.Add(newRequestClient);
             _context.SaveChanges();

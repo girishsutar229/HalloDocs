@@ -1,7 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -134,6 +133,8 @@ textarea {
     }
 }
 
+
+
 /* Additional CSS styles for centering the modal */
 .modal-dialog {
     display: flex;
@@ -143,17 +144,23 @@ textarea {
 }
 
 .modal-content {
-    width: 80%; /*Adjust the width as needed /*/
+    width: 80%; 
 }
 
-
-/* Valid text style */
 
 .valid-text {
     color: green;
 }
 
-/* Invalid text style */
 .invalid-text {
     color: red;
+}
+
+.nav-link:not(.active) {
+    color: #777;
+}
+
+.nav-link.active {
+    border-bottom: 3px solid #0dcaf0;
+    color: #0dcaf0;
 }

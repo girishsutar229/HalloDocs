@@ -67,14 +67,14 @@
                         <span class="text-danger"></span>
                     </div>
                 </div>
-         
-                <div class="col-12 col-md-6 col-lg-6 mb-3  d-flex flex-row">
+
+                <div class="col-12 col-md-6 col-lg-6 mb-3  d-flex flex-row p-0">
                     <div class="col-10 form-floating ">
                         <input id="PatientCountryCode" type="hidden" />
                         <input type="tel" class="form-control m-0" id="PatientPhoneNumber" value="+@Model.requestclient.ContryCode@Model.requestclient.PhoneNumber" onchange="patientvalidatePhoneNumber()" disabled>
                         <span id="patienttextChange"></span>
                     </div>
-                    <div class="col-2 ">
+                    <div class="col-2 mt-2">
                         <button class="btn btn-outline-info field" disabled><i class="bi bi-telephone"></i></button>
                     </div>
                 </div>
@@ -84,6 +84,17 @@
                         <label>Your Email</label>
                         <span class="text-danger"></span>
                     </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6 mb-3  ">
+                    <div class="row ms-1 justify-content-start align-items-start align-content-start">
+                        @if (Model.status != 1)
+                        {
+                          <button type="button" class="btn btn-outline-info edit col-2" id="editbutton">Edit</button>
+                        }
+                        <button type="submit" class=" col-2 btn btn-success save d-none me-2" id="savebutton">Save</button>
+                        <button type="button" class="col-2 btn btn-outline-success cancel d-none " onclick="window.location.reload()" id="cancelbutton">Cancel</button>
+                    </div>
+
                 </div>
 
             </div>
@@ -103,7 +114,7 @@
                             <label for="BusinessName">Business Name / Address</label>
                         </div>
                     </div>
-                    <div class="col-2 mx-0">
+                    <div class="col-2 mx-0 mt-2">
                         <a id="getLocation" onclick="initMap()" class="btn btn-outline-info "><i class="bi bi-geo-alt"></i></a>
                         <input type="text" id="getlatitude" hidden />
                         <input type="text" id="getlongitude" hidden />
@@ -119,37 +130,75 @@
             </div>
 
             <div class="btn d-flex justify-content-end p-2">
-                <button type="reset" class="btn btn-outline-info edit" id="editbutton">Edit</button>
-                <button type="button" class="btn btn-info submit d-none" id="viewnotesbutton">View Notes</button>
                 @if (Model.status == 1)
                 {
-                    <button type="submit" class="btn btn-info submit mx-2  d-none" onclick="checkValidation()" id="assignbutton">Assign</button>
+                    <button type="button" class="btn btn-info " onclick="checkValidation()">Assign</button>
                 }
-                <button type="button" class="btn btn-danger cancel d-none" asp-route-reqId="@Model.requestclient.RequestId" asp-action="AdminDashboard" asp-controller="Admin" id="cancelbutton">Cancel</button>
+                <button type="button" class="btn btn-info mx-2">View Notes</button>
+                <button type="button" class="btn btn-danger" onclick="CancelModel(@Model.requestclient.RequestId)">Cancel</button>
             </div>
         </form>
     </div>
 </div>
 
 <partial name="~/Views/Shared/_Footer.cshtml" />
-
+<div id="partialContainer"></div>
 
 <script>
     var fields = document.querySelectorAll(".field");
     var editbtn = document.getElementById("editbutton");
+    var savebutton = document.getElementById("savebutton")
     var cancelbtn = document.getElementById("cancelbutton");
-    var assignbtn = document.getElementById("assignbutton");
-    var viewnotesbtn = document.getElementById("viewnotesbutton");
     editbtn.addEventListener("click", () => {
         editbtn.classList.add("d-none");
+        savebutton.classList.remove("d-none");
         cancelbtn.classList.remove("d-none");
-        assignbtn.classList.remove("d-none");
-        viewnotesbtn.classList.remove("d-none");
         for (var i = 0; i < fields.length; i++) {
             fields[i].disabled = !fields[i].disabled;
         }
     });
 </script>
 
-                
-                
+<script>
+    function CancelModel(RequestId) {
+        console.log(RequestId);
+        $.ajax({
+            url: '/Admin/CancelModel',
+            type: 'Post',
+            data: {
+                ReqId: RequestId
+            },
+            success: function (data) {
+
+                $('#partialContainer').html(data);
+                $('#cancelmodal').modal('show'); s
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#partialContainer").html('An error has occurred');
+            }
+        });
+
+    }
+    function AssignModel(RequestId) {
+        $.ajax({
+            url: '/Admin/AssignModel',
+            type: 'Post',
+            data: {
+                ReqId: RequestId
+            },
+            success: function (data) {
+
+                $('#partialContainer').html(data);
+                $('#assignmodel').modal('show');
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#partialContainer").html('An error has occurred');
+            }
+        });
+    }
+
+</script>

@@ -3,7 +3,7 @@
     var lastname = Context.Request.Cookies["LastName"];
 }
 
-<header class="shadow container-fluid sticky-top bg-white m-0 py-1">
+<header class="shadow container-fluid sticky-top bg-white mx-0 py-1" >
     <div class="header-all Small bg-white d-flex justify-content-between align-items-center sticky-top bg-white align-text-center ">
         <button class="navbar-toggler d-md-none p-0 m-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <i class="bi bi-list btn btn-outline-info"></i>
@@ -13,8 +13,8 @@
         </a>
         <div class="d-flex justify-content-between align-items-center">
             <p class="mt-2 pt-2 align-items-center d-none d-md-block" id="welcome-text"><strong>Welcome </strong> @firstname  @lastname</p>
-            <button type="button" class="btn btn-outline-info justify-content-center mx-3 d-none d-md-block " onclick="window.location.href = '@Url.Action("PatientLogout", "Patient")';">LogOut</button>
-            <button type="button" class="btn btn-outline-info justify-content-center mx-2 d-block d-md-none" onclick="window.location.href = '@Url.Action("PatientLogout", "Patient")';"><i class="bi bi-box-arrow-right"></i></button>
+            <a type="button" class="btn btn-outline-info justify-content-center mx-3 d-none d-md-block "  asp-action="PatienLogout" asp-controller="Patient" >LogOut</a>
+            <a type="button" class="btn btn-outline-info justify-content-center mx-2 d-block d-md-none" asp-action="PatienLogout" asp-controller="Patient"><i class="bi bi-box-arrow-right"></i></a>
             <button type="button" class="btn btn-outline-info  " onclick="darkmode()"><i class="bi bi-moon moon-icon "></i></button>
         </div>
     </div>

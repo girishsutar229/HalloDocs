@@ -35,4 +35,6 @@ public partial class AspNetUser
 
     [StringLength(10)]
     public string? ContryCode { get; set; }
+
+    public short? Role { get; set; }
 }

@@ -1,6 +1,8 @@
 using HalloDocs.Repositories.Repository;
 using HalloDocs.Repositories.Repository.Interface;
 using HalloDocs.Entities.DataContext;
+using HalloDocs.Service.Interfaces;
+using HalloDocs.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>();
 builder.Services.AddScoped<IPatientRepository,PatientRepository>();
 builder.Services.AddScoped<IAdminRepository,AdminRepository>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 var app = builder.Build();
 

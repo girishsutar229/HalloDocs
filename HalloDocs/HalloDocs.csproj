@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hallodocs.Repositories\HalloDocs.Repositories.csproj" />
+    <ProjectReference Include="..\HalloDocs.Service\HalloDocs.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -134,6 +134,9 @@ hr{
     .font {
         font-size: 12px;
     }
+    .fontconclude{
+        font-size:11px;
+    }
 }
 
 #Patient {

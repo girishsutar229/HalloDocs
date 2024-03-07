@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HalloDocs.Entities", "Hallo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HalloDocs.Repositories", "Hallodocs.Repositories\HalloDocs.Repositories.csproj", "{624D2F24-719E-409C-B737-78D4F5233012}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HalloDocs.Service", "HalloDocs.Service\HalloDocs.Service.csproj", "{12E6EC72-4AD1-4308-B19B-96EABA18B684}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{624D2F24-719E-409C-B737-78D4F5233012}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{624D2F24-719E-409C-B737-78D4F5233012}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{624D2F24-719E-409C-B737-78D4F5233012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E6EC72-4AD1-4308-B19B-96EABA18B684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E6EC72-4AD1-4308-B19B-96EABA18B684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E6EC72-4AD1-4308-B19B-96EABA18B684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E6EC72-4AD1-4308-B19B-96EABA18B684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

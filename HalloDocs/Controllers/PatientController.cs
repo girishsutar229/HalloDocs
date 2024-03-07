@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
 using System.Net.Http;
 using System.IO.Compression;
-
-
-
+using HalloDocs.Service.Interfaces;
+using HalloDocs.Auth;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HalloDocs.Controllers
 {
@@ -21,11 +21,13 @@ namespace HalloDocs.Controllers
     {
         private readonly IPatientRepository _patient;
         private readonly ApplicationDbContext _context;
+        private readonly IJwtService _jwtService;
 
-        public PatientController(IPatientRepository patient, ApplicationDbContext context)
+        public PatientController(IPatientRepository patient, ApplicationDbContext context,IJwtService jwtService)
         {
             _patient = patient;
             _context = context;
+            _jwtService = jwtService;
         }
 
 
@@ -81,9 +83,7 @@ namespace HalloDocs.Controllers
             var emailExists = _patient.CheckEmailExists(email);
             return Json(new { exists = emailExists });
         }
-
-
-
+        
         [HttpGet]
         [Route("Patient/FamilyTypeRequest", Name = "FamilyTypeRequest")]
         public IActionResult FamilyTypeRequest()
@@ -190,6 +190,7 @@ namespace HalloDocs.Controllers
             if (ModelState.IsValid)
             {
                 var result = _patient.PatientRegisterPage(model);
+
                 if (result == "Success")
                 {
                     return RedirectToAction("PatientLoginPage", "Patient");
@@ -210,6 +211,7 @@ namespace HalloDocs.Controllers
             return View();
         }
 
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Patient/PatientLoginPage", Name = "PatientLoginPage")]
@@ -219,21 +221,21 @@ namespace HalloDocs.Controllers
             {
                 var ans = _patient.PatientLoginPage(model, HttpContext);
 
-                if (ans == "Success")
+                if (ans != null )
                 {
+                    var token = _jwtService.GenerateJwtToken(ans);
+                    Response.Cookies.Append("jwt", token, new CookieOptions
+                    {
+                        Secure = true,
+                        Expires = DateTime.UtcNow.AddHours(1),
+                    });
                     TempData["success"] = "User LogIn Successfully";
                     return RedirectToAction("PatientDashboard", "Patient");
-                }
-                else if (ans == "InvalidEmail")
-                {
-                    ModelState.AddModelError(nameof(model.Email), "Invalid Email");
-                    TempData["error"] = "Invalid Email address";
-                    return View(model);
-                }
+                }           
                 else
                 {
-                    ModelState.AddModelError(nameof(model.PasswordHash), "Invalid Password");
-                    TempData["error"] = "Invalid PassWord";
+                    ModelState.AddModelError(nameof(model.PasswordHash), "Invalid  email or Password");
+                    TempData["error"] = "Invalid Email or PassWord";
                     return View(model);
                 }
 
@@ -242,7 +244,18 @@ namespace HalloDocs.Controllers
             return View(model);
         }
 
+        public IActionResult PatienLogout(string returnUrl)
+        {
+            var ans = _patient.PatienLogout(HttpContext);
 
+            if(ans == "Logeout")
+            {
+                return RedirectToAction("PatientSite", "Patient");
+            }
+            return View();
+        }
+
+        [CustomAuthorization("Patient")]
         [HttpGet]
         [Route("Patient/PatientDashboard", Name = "PatientDashboard")]
         public IActionResult PatientDashboard(PatientDashboardViewModel model)
@@ -251,7 +264,7 @@ namespace HalloDocs.Controllers
             return View(ans);
         }
 
-
+        [CustomAuthorization("Patient")]
         [HttpGet]
         [Route("Patient/PatientUserProfile", Name = "PatientUserProfile")]
         public IActionResult PatientUserProfile(PatientDashboardViewModel model)
@@ -276,8 +289,7 @@ namespace HalloDocs.Controllers
             }
         }
 
-
-
+        [CustomAuthorization("Patient")]
         [HttpGet]
         [Route("Patient/PatientViewDocument/{reqId}", Name = "PatientViewDocument")]
         public IActionResult PatientViewDocument(PatientViewDocumentViewModel model, int reqId)
@@ -305,10 +317,20 @@ namespace HalloDocs.Controllers
         }
 
         /*-----------------------------------------------------SubmitRequestForMe---------------------------------------------------------------------------------*/
+
+        [HttpGet]
+        [Route("Patient/PatientDashboard/GetRequestMe", Name = "GetRequestMe")]
+        public IActionResult GetRequestMe(PatientCreateNewRequestViewModel model)
+        {
+            var ans = _patient.GetRequestMe(model, HttpContext);
+            return View("RequestMe",ans);
+        }
+
         [HttpGet]
         [Route("Patient/PatientDashboard/RequestMe", Name = "RequestMe")]
         public IActionResult RequestMe()
         {
+            
             return View();
         }
 
@@ -319,6 +341,7 @@ namespace HalloDocs.Controllers
             if (ModelState.IsValid)
             {
                 var result = _patient.RequestMe(model, HttpContext);
+
                 if (result == "Success")
                 {
                     return RedirectToAction("PatientDashboard", "Patient");
@@ -332,21 +355,21 @@ namespace HalloDocs.Controllers
             return View(model);
         }
 
-
+        [CustomAuthorization("Patient")]
         [HttpGet]
         [Route("Patient/PatientDashboard/RequestSomeOne", Name = "RequestSomeOne")]
         public IActionResult RequestSomeOne()
         {
             return View();
         }
+        
         [HttpPost]
         [Route("Patient/PatientDashboard/RequestSomeOne", Name = "RequestSomeOne")]
-        [ValidateAntiForgeryToken]
         public IActionResult RequestSomeOne(PatientCreateNewRequestViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = _patient.RequestMe(model, HttpContext);
+                var result = _patient.RequestSomeOne(model, HttpContext);
                 if (result == "Success")
                 {
                     return RedirectToAction("PatientDashboard", "Patient");
@@ -485,6 +508,10 @@ namespace HalloDocs.Controllers
             return NotFound();
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
     }
 }

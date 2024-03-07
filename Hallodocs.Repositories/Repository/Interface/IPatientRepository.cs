@@ -26,7 +26,9 @@ namespace HalloDocs.Repositories.Repository.Interface
 
         public string PatientRegisterPage(PatientRegisterViewModel model);
 
-        public string PatientLoginPage(PatientLoginViewModel model, HttpContext httpContext);
+        public AspNetUser PatientLoginPage(PatientLoginViewModel model, HttpContext httpContext);
+
+        public string PatienLogout(HttpContext httpContext);
 
         public object PatientDashboard(PatientDashboardViewModel model, HttpContext httpContext); 
 
@@ -38,6 +40,7 @@ namespace HalloDocs.Repositories.Repository.Interface
 
         public string UploadDocuments(PatientViewDocumentViewModel model, int reqId);
 
+        public object GetRequestMe(PatientCreateNewRequestViewModel model, HttpContext httpContext);
         public string RequestMe(PatientCreateNewRequestViewModel model, HttpContext httpContext);
 
         public string RequestSomeOne(PatientCreateNewRequestViewModel model, HttpContext httpContext);

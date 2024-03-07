@@ -1,0 +1,46 @@
+﻿@model HalloDocs.Entities.ViewModels.AssignCaseViewModel;
+
+
+<div class="modal fade" id="assignmodel" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <form id="form1" method="post" asp-action="AssignCase" asp-controller="Admin"  asp-route-reqId=@Model.reqId>
+                    <div class="modal-header bg-info">
+                        <h5 class="modal-title text-white"> Assign Request</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex ">
+                            <p>To Assign this request,search and select another Physician.</p>
+                        </div>
+                        <div class="form-floating my-1">
+                        <select class="form-select" id="region_Assign" aria-label="Default select example" onchange="physicianLoadData()">
+                                 @foreach (var region in Model.regionList)
+                                {
+                                  <option value="@region.RegionId">@region.Name</option>
+                                }
+
+                            </select>
+                            <label>Narrow search by Region</label>
+                        </div>
+                       <div class="form-floating mb-1">
+                        <select asp-for="@Model.PhysicianId" class="form-select py-0 my-0" id="physician_Assign" aria-label="Default select example">
+                           
+                         </select>
+                    
+                        </div>
+                        <div class="form-group">
+                            <textarea asp-for="@Model.DescriptionsAssignCase" class="form-control" id="notes_Assign" placeholder="Description" rows="3"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info text-white">Continue</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+

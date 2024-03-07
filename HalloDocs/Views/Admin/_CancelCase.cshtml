@@ -1,0 +1,36 @@
+﻿@model HalloDocs.Entities.ViewModels.CancleViewModel;
+
+<div class="modal fade" id="cancelmodal" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" asp-action="CancelCase" asp-route-reqId=@Model.reqId>
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white">Confirm Cancellation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex ">
+                        <h5>Patient Name : <span class="text-info fs-5" id="firstName">@Model.PatientName</span></h5>
+                    </div>
+                    <select asp-for="CaseTags" class="form-select" id="SelectData" aria-label="Default select example">
+                        <option> Reasons for Cancellation</option>
+                        @foreach (var reasons in Model.CaseTagsList)
+                        {
+                            <option value="@reasons.CaseTagId">@reasons.Name</option>
+                        }
+
+                    </select>
+                    <br />
+                    <div class="form-group">
+                        <textarea asp-for="CancleNotesDescription" class="form-control" id="notes" rows="3" placeholder="Provide Additional Notes"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info text-white">Confirm</button>
+                        <button type="button" class="btn  btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

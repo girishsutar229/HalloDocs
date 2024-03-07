@@ -45,7 +45,7 @@ public partial class Admin
     public string? AltPhone { get; set; }
 
     [StringLength(128)]
-    public string CreatedBy { get; set; } = null!;
+    public string? CreatedBy { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime CreatedDate { get; set; }

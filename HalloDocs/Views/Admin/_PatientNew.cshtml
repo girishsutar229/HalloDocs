@@ -21,14 +21,16 @@
                 <tr id="@((TypesOfRequest)request.RequestTypeId)">
 
                     <td>@request.ClientFirstName @request.ClientLastName</td>
+
                     <td><button class="btn border m-0"><i class="bi bi-envelope"></i> </button> &nbsp; @request.DateOfBirth.ToString("MMM dd,yyyy") (@request.Age) </td>
                     <td> @((TypesOfRequest)request.RequestTypeId),@request.RequestFirstName@request.RequestLastName </td>
                     <td>@request.RequestedDate.ToString("MMM dd,yyyy hh:mm tt") </td>
 
-                    @if(request.RequestTypeId==1){
-                      <td><button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button></td>
+                    @if (request.RequestTypeId == 1)
+                    {
+                        <td><button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button></td>
                     }
-                    @if(request.RequestTypeId == 2)
+                    @if (request.RequestTypeId == 2)
                     {
                         <td class="d-flex flex-column">
                             <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.ClientCountryCode @request.ClientPhoneNumber</button>
@@ -53,7 +55,7 @@
                             <p class="p-0 m-0">(Patient)</p>
                             <button class="btn border text-white"><i class="bi bi-telephone text-black"></i> +@request.RequestCountryCode @request.RequestPhoneNumber</button>
                             <p class="p-0 m-0">(Bussiness)</p>
-                            
+
                         </td>
                     }
 
@@ -62,28 +64,115 @@
                     <td><button class="btn border text-white"><i class="bi bi-person-circle text-black p-1"></i>Provider</button></td>
                     <td>
                         <button class="btn border text-white dropdown-toggle" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">Actions</button>
-                     
 
                         <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assignCase" onclick="assignModal(@request.RequestId)"><i class="bi bi-file-text"></i> Assign Case</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cancleCase" onclick="cancelModal(@request.RequestId,'@request.ClientFirstName')"><i class="bi bi-x-circle"></i> Cancle Case</a></li>
+                            <li><a class="dropdown-item" type="button" onclick="AssignModel(@request.RequestId)"><i class="bi bi-file-text"></i> Assign Case</a></li>
+                            <li><a class="dropdown-item " type="button" onclick="CancelModel(@request.RequestId)"><i class="bi bi-x-circle"></i> Cancle Case</a></li>
                             <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewCase" asp-controller="Admin"><i class="bi bi-file-earmark-medical"></i> View Case</a></li>
                             <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewNotes" asp-controller="Admin"><i class="bi bi-file-earmark-richtext"></i> View Notes</a></li>
-                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#blockCase" onclick="blockModal(@request.RequestId,'@request.ClientFirstName','@request.ClientEmail','@request.ClientPhoneNumber')"><i class="bi bi-slash-circle"></i> Block Patient</a></li>
+                            <li><a class="dropdown-item" type="button" onclick="BlockModel(@request.RequestId)"><i class="bi bi-slash-circle"></i> Block Patient</a></li>
                         </ul>
 
                     </td>
                 </tr>
             }
         }
-       
+
     </tbody>
 </table>
-@* 
-<ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-    <li><a class="dropdown-item" href="#"><i class="bi bi-file-text"></i> Assign Case</a></li>
-    <li><a class="dropdown-item" href="#"><i class="bi bi-x-circle"></i> Cancle Case</a></li>
-    <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewCase" asp-controller="Admin"><i class="bi bi-file-earmark-medical"></i> View Case</a></li>
-    <li><a class="dropdown-item" asp-route-reqId="@request.RequestId" asp-action="ViewNotes" asp-controller="Admin"><i class="bi bi-file-earmark-richtext"></i> View Notes</a></li>
-    <li><a class="dropdown-item" href="#"><i class="bi bi-slash-circle"></i> Block Patient</a></li>
-</ul> *@
+
+<div id="partialContainer"></div>
+
+
+<script>
+    function CancelModel(RequestId) {
+        console.log(RequestId);
+        $.ajax({
+            url: '/Admin/CancelModel',
+            type: 'Post',
+            data: {
+                ReqId: RequestId
+            },
+            success: function (data) {
+
+                $('#partialContainer').html(data);
+                $('#cancelmodal').modal('show'); s
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#partialContainer").html('An error has occurred');
+            }
+        });
+
+    }
+    function AssignModel(RequestId) {
+        $.ajax({
+            url: '/Admin/AssignModel',
+            type: 'Post',
+            data: {
+                ReqId: RequestId
+            },
+            success: function (data) {
+
+                $('#partialContainer').html(data);
+                $('#assignmodel').modal('show');
+
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#partialContainer").html('An error has occurred');
+            }
+        });
+    }
+
+    function physicianLoadData() {
+        debugger
+        var region = document.getElementById("region_Assign").value;
+        console.log(region);
+        $.ajax({
+            url: '/admin/PhysicianByRegion',
+            type: 'POST',
+            data: {
+                region: region
+            },
+            success: function (response) {
+                var phyList = document.getElementById("physician_Assign");
+                while (phyList.options.length > 0) {
+                    phyList.remove(0);
+                };
+                phyList.appendChild(new Option("--Select Physician--", ""));
+                response.physicians.forEach(function (phy) {
+                    phyList.appendChild(new Option(phy.firstName + " " + phy.lastName, phy.physicianId));
+                    console.log(phy.FirstName);
+                });
+            },
+            error: function () {
+                alert("Error");
+            }
+        })
+
+    }
+    function BlockModel(RequestId) {
+        // var reason = document.getElementById("reasonForBlock").value;
+        // var email = document.getElementById("emailForBlock").value;
+        // var phone = document.getElementById("phoneForBlock").value;
+        debugger
+        $.ajax({
+            url: '/Admin/BlockModel',
+            type: 'Post',
+            data: {
+                ReqId: RequestId
+            },
+            success: function (data) {
+                $('#partialContainer').html(data);
+                $('#blockmodel').modal('show');
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#partialContainer").html('An error has occurred');
+            }
+        });
+    }
+
+</script>

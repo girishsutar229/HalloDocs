@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace HalloDocs.Repositories.Repository.Interface
 {
     public interface IAdminRepository
     {
-        //public string AdminLogin(AdminLoginViewModel model);
+        public AspNetUser AdminLogin(AdminLoginViewModel model, HttpContext httpContext);
+        public string AdminLogOut(HttpContext httpContext);
         public List<AdminDashboardViewModel> GetNewRequest();
 
         public List<AdminDashboardViewModel> GetPendingRequest();
@@ -24,7 +26,6 @@ namespace HalloDocs.Repositories.Repository.Interface
         public List<AdminDashboardViewModel> GetUnPaidRequest();
 
         public object GetViewCase(ViewCaseViewModel model, int reqId);
-
 
     }
 }

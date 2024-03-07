@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Net.Mail;
 using System.Net;
+using System.Security.Claims;
 
 namespace HalloDocs.Repositories.Repository
 {
@@ -89,7 +90,7 @@ namespace HalloDocs.Repositories.Repository
                 ContryCode = model.ContryCode,
                 Email = model.Email,
                 CreatedDate = DateTime.Now,
-                Status = 4,
+                Status = 1,
                 ConfirmationNumber = (stateabbr + date + month + lasttwocharsfromlname + firsttwocharsfromfname + totalRequests).ToUpper(),
             };
             _context.Requests.Add(request);
@@ -378,7 +379,7 @@ namespace HalloDocs.Repositories.Repository
             }
         }
 
-        public string PatientLoginPage(PatientLoginViewModel model, HttpContext httpContext)
+        public AspNetUser PatientLoginPage(PatientLoginViewModel model, HttpContext httpContext)
         {
             AspNetUser aspNetUserFromDb = _context.AspNetUsers.FirstOrDefault(a => a.Email == model.Email);
             if (aspNetUserFromDb != null && aspNetUserFromDb.PasswordHash == model.PasswordHash)
@@ -390,21 +391,37 @@ namespace HalloDocs.Repositories.Repository
                 cookieOption.Expires = DateTime.Now.AddMinutes(30);
                 httpContext.Response.Cookies.Append("UserID", userFromDb.UserId.ToString(), cookieOption);
                 httpContext.Response.Cookies.Append("EmailId", userFromDb.Email.ToString(), cookieOption);
+                httpContext.Response.Cookies.Append("FirstName", userFromDb.FirstName, cookieOption);
+                httpContext.Response.Cookies.Append("LastName", userFromDb.LastName, cookieOption);
 
-                return "Success";
+                return aspNetUserFromDb;
             }
             else if (aspNetUserFromDb == null)
             {
 
-                return "InvalidEmail";
+                return null;
             }
             else
             {
-                return "InvalidPssword";
+                return null;
             }
 
         }
+        
+        public string PatienLogout(HttpContext httpContext)
+        {
+           
+            httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
 
+            // Delete the cookies
+            httpContext.Response.Cookies.Delete("jwt");
+            httpContext.Response.Cookies.Delete("UserID");
+            httpContext.Response.Cookies.Delete("EmailId");
+            httpContext.Response.Cookies.Delete("FirstName");
+            httpContext.Response.Cookies.Delete("LastName");
+
+            return "Logeout";
+        }
         public object PatientDashboard(PatientDashboardViewModel model, HttpContext httpContext)
         {
             int userID = int.Parse(httpContext.Request.Cookies["UserID"]);
@@ -412,10 +429,6 @@ namespace HalloDocs.Repositories.Repository
             PatientDashboardViewModel dashboardData = new PatientDashboardViewModel();
             dashboardData.User = _context.Users.FirstOrDefault(a => a.UserId == userID);
             dashboardData.RequestsData = _context.Requests.Where(b => b.UserId == userID).ToList();
-
-            CookieOptions cookieOption = new CookieOptions();
-            httpContext.Response.Cookies.Append("FirstName", dashboardData.User.FirstName, cookieOption);
-            httpContext.Response.Cookies.Append("LastName", dashboardData.User.LastName, cookieOption);
 
             return dashboardData;
 
@@ -473,6 +486,20 @@ namespace HalloDocs.Repositories.Repository
             return model;
         }
 
+        public object GetRequestMe(PatientCreateNewRequestViewModel model, HttpContext httpContext)
+        {
+            int UserId = int.Parse(httpContext.Request.Cookies["userID"]);
+            var userData = _context.Users.FirstOrDefault(a => a.UserId == UserId);
+
+            model.PatientFirstName = userData.FirstName;
+            model.PatientLastName = userData.LastName;
+            model.PatientEmail  = userData.Email;
+            model.PatientContryCode = userData.ContryCode;
+            model.PatientPhoneNumber = userData.Mobile;
+            model.PatientDateOfBirth = userData.DateOfBirth;
+
+            return model;
+        }
         public string RequestMe(PatientCreateNewRequestViewModel model, HttpContext httpContext)
         {
             var firsttwocharsfromfname = model.PatientFirstName.Substring(0, 2);
@@ -554,7 +581,6 @@ namespace HalloDocs.Repositories.Repository
                     }
                 }
 
-               
             }
             return "Success";
         }
@@ -568,10 +594,8 @@ namespace HalloDocs.Repositories.Repository
             var month = DateTime.Now.Month.ToString("00");
             var totalRequests = _context.Requests.Where(r => r.CreatedDate.Date == DateTime.Now.Date).Count().ToString("0000");
 
-
             var userid = int.Parse(httpContext.Request.Cookies["UserID"]);
             var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
-
 
             if (user != null)
             {
@@ -579,11 +603,11 @@ namespace HalloDocs.Repositories.Repository
                 {
                     UserId = userid,
                     RequestTypeId = 2,
-                    FirstName = model.PatientFirstName,
-                    LastName = model.PatientLastName,
-                    PhoneNumber = model.PatientPhoneNumber,
-                    ContryCode = model.PatientContryCode,
-                    Email = model.PatientEmail,
+                    FirstName =user.FirstName ,
+                    LastName = user.LastName,
+                    PhoneNumber = user.Mobile,
+                    ContryCode = user.ContryCode,
+                    Email = user.Email,
                     CreatedDate = DateTime.Now,
                     RelationName = model.PatientRelationName,
                     Status = 1,
@@ -592,19 +616,21 @@ namespace HalloDocs.Repositories.Repository
                 _context.Requests.Add(request);
                 _context.SaveChanges();
 
-                var requestCheck = _context.Requests.OrderBy(a => a.RequestId).LastOrDefault(r => r.Email == model.PatientEmail);
+                var requestCheck = _context.Requests.FirstOrDefault(r => r.Email == user.Email);
+              
                 var requestclient = new RequestClient
                 {
                     RequestId = requestCheck.RequestId,
                     FirstName = model.PatientFirstName,
                     LastName = model.PatientLastName,
-                    PatientSymptoms=model.PatientSymptoms,
+                    PatientSymptoms = model.PatientSymptoms,
                     PhoneNumber = model.PatientPhoneNumber,
                     ContryCode = model.PatientContryCode,
                     Email = model.PatientEmail,
                     IntDate = model.PatientDateOfBirth.Day,
                     IntYear = model.PatientDateOfBirth.Year,
                     StrMonth = model.PatientDateOfBirth.ToString("MMMM"),
+                    DateOfBirth = model.PatientDateOfBirth,
                     ZipCode = model.PatientZipCode,
                     State = model.PatientState,
                     City = model.PatientCity,
@@ -735,6 +761,7 @@ namespace HalloDocs.Repositories.Repository
             return  "error";
            
         }
+
 
     }
 }

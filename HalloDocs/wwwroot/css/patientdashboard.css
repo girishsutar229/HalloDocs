@@ -1,8 +1,0 @@
-﻿.navbar .nav-link:not(.active) {
-    color: #777;
-}
-
-.navbar .nav-link.active {
-    border-bottom: 3px solid #0dcaf0;
-    color: #0dcaf0;
-}

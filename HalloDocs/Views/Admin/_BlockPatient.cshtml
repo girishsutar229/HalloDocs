@@ -1,0 +1,28 @@
+﻿@model HalloDocs.Entities.ViewModels.BlockPatientViewModel;
+
+<div class="modal fade" id="blockmodel" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" asp-action="BlockPatient" asp-route-reqId=@Model.reqId>
+                <div class="modal-header bg-info mb-2">
+                    <h5 class="modal-title text-white">Confirm Block</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex ">
+                        <h5>Patient Name : <span class="text-info">@Model.PatientName</span></h5>
+                        <p class="px-1 mx-1 text-info fs-5" id="firstNameForBlockCase"> </p>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" asp-for="ResonsBlockRequest" id="reasonForBlock" rows="4" placeholder="Reason For BlockRequest"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info text-white">Confirm</button>
+                    <button type="button" class="btn btn-secondary btn-outline-info bg-white" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>>
+        </div>
+    </div>
+</div>
+

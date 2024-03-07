@@ -3,12 +3,13 @@
 @{
     Layout = "_LayoutAdmin";
 }
+<partial name="_Notification" />
 <div class="row d-flex flex-row container-fluid h-100 w-100 m-0 p-0 ">
-    <div class="col col-md-6 d-none d-md-block h-100 w-100">
+    <div class="col col-md-6 d-none d-md-block h-100 w-100 px-0">
         <img class="h-100 w-100" src="~/SRS Screen Shorts/11116016_415.jpg">
     </div>
-    <div class="col col-md-6  h-100 w-100 d-flex flex-column justify-content-between align-items-center">
-        <div class="w-100 ">
+    <div class="col col-md-6 px-0 h-100 w-100 d-flex flex-column justify-content-between align-items-center align-content-center">
+        <div class="row w-100 ">
             <div class="w-100 d-flex justify-content-end pt-2 px-5">
                 <button type="button" class="btn btn-outline-info " onclick="dark_mode()"><i class="bi bi-moon moon-icon "></i></button>
             </div>
@@ -17,32 +18,33 @@
             </div>
         </div>
 
-        <div class="form">
-    
-            <h2 class="text-black my-4">Login To Your Account</h2>
+        <div class ="row container-fluid">
+            <h2 class="col-sm-8 col-12 px-0 py-3 container text-center text-black my-4">Login To Your Account</h2>
+            <div class=" col-sm-8 col-12 px-0 form container">
+                <form asp-controller="Admin" asp-action="AdminLogin" method="post">
+                    <div class="form-floating my-3">
+                        <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                        <label asp-for="Email">Email</label>
+                        <i class="bi bi-person-circle user-icon icon"></i>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating my-3">
+                        <input asp-for="PasswordHash" type="password" class="form-control" id="password" placeholder="Password">
+                        <label class="control-label">Password</label>
+                        <i class="bi bi-eye-slash icon " id="togglePassword"></i>
+                        <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                    </div>
+                    <button class="container btn btn-info text-white my-1" type="submit">Login</button>
 
-            <form asp-controller="Patient" asp-action="PatientLoginPage" method="post">
-                <div class="form-floating m-2">
-                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
-                    <label asp-for="Email">Email</label>
-                    <i class="bi bi-person-circle user-icon icon"></i>
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating m-2">
-                    <input asp-for="PasswordHash" type="password" class="form-control" id="password" placeholder="Password">
-                    <label class="control-label">Password</label>
-                    <i class="bi bi-eye-slash icon " id="togglePassword"></i>
-                    <span asp-validation-for="PasswordHash" class="text-danger"></span>
-                </div>
-                <button class="container btn btn-info text-white my-1" type="submit">Login</button>
-
-                <div class="my-2">
-                    <span>Don't Have an Acoounts?</span> <a asp-route="PatientRegisterPage" class="fw-bolder my-2">Sign UP</a>
-                </div>
-                <div class="my-2">
-                    <span>Forgot Password?</span> <a asp-route="AdminForgotPassword" class="text-danger">Click Here </a>
-                </div>
-            </form>
+                    <div class="my-3">
+                        <span>Don't Have an Acoounts?</span> <a asp-route="PatientRegisterPage" class="fw-bolder my-2">Sign UP</a>
+                    </div>
+                    <div class="my-3">
+                        <span>Forgot Password?</span> <a asp-route="AdminForgotPassword" class="text-danger">Click Here </a>
+                    </div>
+                    <a asp-route="PatientSite" class="align-text-left text-decoration-none text-info fs-5 fw-bolder">&lt; Back <span class="fs-6 text-black">(Patient site)</span></a>
+                </form>
+            </div>
         </div>
         <div class="text-center footer mt-5">
             <a href="#" class="text-muted text-decoration-none">Terms Of Conditions</a> |

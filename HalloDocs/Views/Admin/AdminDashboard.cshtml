@@ -1,11 +1,11 @@
 ﻿@model HalloDocs.Entities.ViewModels.AdminDashboardViewModel;
-
+@using HalloDocs.Entities.ViewModels;
 @{
     Layout = "_LayoutAdmin";
 }
 <partial name="~/Views/Shared/_AdminHeader.cshtml" />
-
-<div class="container-fluid mt-5">
+<partial name="_Notification" />
+<div class="container-fluid mt-5 pb-5">
     <div class="row admindashrow">
         <div class=" col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
             <button class="font btn btn-lg w-100 h-100 active" id="newbtn" onclick="changeStatus(1)"> <i class="bi bi-plus-circle-dotted d-none d-md-inline "></i> NEW  <p class="fw-bold fs-4 mb-0">@Model.countNew</p> </button>
@@ -17,7 +17,7 @@
             <button class="font btn btn-lg w-100 h-100" id="activebtn" onclick="changeStatus(3)"><i class="bi bi-check2-circle d-none d-md-inline"></i> ACTIVE <p class="fw-bold fs-4 mb-0">@Model.countActive</p></button>
         </div>
         <div class=" col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
-            <button class="font btn btn-lg w-100 h-100" id="concludebtn" onclick="changeStatus(4)"><i class="bi bi-clock-history d-none d-md-inline"></i> CONCLUDE<p class="fw-bold fs-4 mb-0">@Model.countConclude</p></button>
+            <button class="fontconclude btn btn-lg w-100 h-100  " id="concludebtn" onclick="changeStatus(4)"><i class="bi bi-clock-history d-none d-md-inline"></i> CONCLUDE<p class="fw-bold fs-4 mb-0">@Model.countConclude</p></button>
         </div>
         <div class="col-4 col-lg-2 col-sm-4 col-md-6 mb-3">
             <button class="font btn btn-lg w-100 h-100 " id="toclosebtn" onclick="changeStatus(5)"><i class="bi bi-person-x d-none d-md-inline"></i>TO CLOSE<p class="fw-bold fs-4 mb-0">@Model.countToClose</p></button>
@@ -40,12 +40,12 @@
 
     <div class="col d-flex flex-column container-fluid shadow border-0 rounded mt-3 ">
         <div class="row flex-md-row flex-column justify-content-between align-content-center align-items-center rounded bg-white py-3 ">
-            <div class="col col-xl-6 col-md-6 col-sm-12 d-flex flex-column flex-md-row">
-                <div class="p-2 d-flex input-group m-2">
+            <div class="col col-xl-4 col-md-6 col-sm-12 d-flex flex-column flex-md-row">
+                <div class=" d-flex input-group m-2 p-2">
                     <span class="input-group-text " id="search-addon"><i class="bi bi-search "></i></span>
                     <input type="text" class="form-control dashboardsearch" id="searchbar" oninput="changeSearchString(this.value)" placeholder=" Search Patients" aria-label="Search" area-describedby="search-addon">
                 </div>
-                <div class="input-group m-3 pe-3">
+                <div class="input-group m-2 p-2">
                     <span class="input-group-text" id="search-addon"><i class="bi bi-search "></i></span>
                     <select class="form-select" aria-label="Default select example">
                         <option value="" disabled selected>Search</option>
@@ -80,124 +80,257 @@
 </div>
 
 
-<!----------------------------------Cancel Request Modal ------------------------------------------->
-<div class="container">
-    <div class="modal fade" id="cancleCase" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white">Confirm Cancellation</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex ">
-                        <h5>Patient Name : </h5>
-                        <h5 class="text-info fs-5" id="firstName">  Admin Admin </h5>
-                    </div>
-                    <select class="form-select" id="SelectData" aria-label="Default select example">
-                        <option value="" selected>Reasons For Cancellation</option>
-                        <option value="Out of service area">Out of service area</option>
-                        <option value="No Response to call or text, left message">No Response to call or text</option>
-                        <option value="Cost Issue">Cost Issue</option>
-
-                    </select>
-                    <br />
-                    <div class="form-group">
-                        <input type="text" id="reqId" hidden />
-                        <textarea class="form-control" id="notes"  rows="3" placeholder="Enter brief details of Symptoms">Provide Additional Notes</textarea>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-info" id="Confirm" onclick="cancelData()">Confirm</a>
-                    <button type="button" class="btn  btn-outline-info" data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!----------------------------Assign Request Modal ------------------------------------------>
-<div class="container">
-    <div class="modal fade" id="assignCase" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white"> Assign Request</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex ">
-                        <p>To Assign this request,search and select another Physician.</p>
-                    </div>
-                    <input type="text" id="requestId_Assign" hidden />
-                    <div class="form-floating">
-                        <select class="form-select" id="region_Assign" aria-label="Default select example">
-
-                            @foreach (var region in Model.regions)
-                            {
-                                <option value="">@region.Name</option>
-                            }
-
-                        </select>
-                        <label>Narrow search by Region</label>
-                    </div>
-                    <select class="form-select my-3" id="physician_Assign" aria-label="Default select example">
-                        <option value="a">Select Physician</option>
-                        <option value="b">b</option>
-                        <option value="c">c</option>
-                        <option value="d">d</option>
-                    </select>
-
-                    <div class="form-group">
-                        <textarea class="form-control" id="notes_Assign" placeholder="Description" rows="3"></textarea>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-info" id="Confirm" onclick="assignData()">Confirm</a>
-                    <button type="button" class="btn btn-outline-info " data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!------------------------------Block Case Modal ------------------------------------------->
-<div class="container">
-    <div class="modal fade" id="blockCase" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header bg-info">
-                    <h5 class="modal-title" style="color:white;">Confirm Block</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex ">
-                        <h5>Patient Name : </h5>
-                        <p class="px-1 mx-1 text-info fs-5" id="firstNameForBlockCase"> </p>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="requestIdForBlock" hidden />
-                        <input type="email" id="emailForBlock" hidden />
-                        <input type="text" id="phoneForBlock" hidden />
-                        <textarea class="form-control" id="reasonForBlock" rows="4">Reason For BlockRequest</textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-primary btn-outline-light bg-info" id="Confirm" onclick="blockData()">Confirm</a>
-                    <button type="button" class="btn btn-secondary btn-outline-info bg-white" data-bs-dismiss="modal" style="color:skyblue;">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <partial name="~/Views/Shared/_Footer.cshtml" />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+<script>
+    var newBtn = document.getElementById("newbtn");
+    var pendingBtn = document.getElementById("pendingbtn");
+    var activeBtn = document.getElementById("activebtn");
+    var concludeBtn = document.getElementById("concludebtn");
+    var tocloseBtn = document.getElementById("toclosebtn");
+    var unpaidBtn = document.getElementById("unpaidbtn");
+    var total = document.querySelectorAll("div.admindashrow button.btn-lg");
+    var count = total.length;
+
+    newBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "newbtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    pendingBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "pendingbtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    activeBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "activebtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    concludeBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "concludebtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    tocloseBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "toclosebtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+    unpaidBtn.addEventListener('click', () => {
+        for (let i = 0; i < count; i++) {
+            if (total[i].id == "unpaidbtn") {
+                total[i].classList.add("active");
+            }
+            else {
+                total[i].classList.remove("active");
+            }
+        }
+    });
+
+</script>
+
+
+<script>
+
+    var selectedStatus = 1;
+    var selectedRegion = 0;
+    var selectedRequestType = 0;
+    var searchString = "";
+
+    function changeStatus(newStatus) {
+        selectedStatus = parseInt(newStatus);
+        loadData();
+    }
+
+    function changeRegion() {
+
+    }
+
+    function changeRequestType(newRequestType) {
+        selectedRequestType = newRequestType;
+        loadData();
+    }
+
+    function changeSearchString(newSeachString) {
+        searchString = newSeachString;
+        loadData();
+    }
+
+    function loadData() {
+        switch (selectedStatus) {
+            case 1:
+                $.ajax({
+                    url: "/admin/patientStatusNew",
+                    type: "POST",
+                    data: {
+                        status: selectedStatus,
+                        region: selectedRegion,
+                        requestType: selectedRequestType,
+                        searchString: searchString
+                    },
+                    success: function (data) {
+                        $("#statuswisedata").html(data);
+                        $("#patienttype").html("New");
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#statuswisedata").html('An error has occurred');
+                    }
+                })
+
+                break;
+            case 2:
+                $.ajax({
+                    url: "/admin/patientStatusPending",
+                    type: "POST",
+                    data: {
+                        status: selectedStatus,
+                        region: selectedRegion,
+                        requestType: selectedRequestType,
+                        searchString: searchString
+                    },
+                    success: function (data) {
+                        $("#statuswisedata").html(data);
+                        $("#patienttype").html("Pending");
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#statuswisedata").html('An error has occurred');
+                    }
+                })
+
+                break;
+            case 3:
+                $.ajax({
+                    url: "/admin/patientStatusActive",
+                    type: "POST",
+                    data: {
+                        status: selectedStatus,
+                        region: selectedRegion,
+                        requestType: selectedRequestType,
+                        searchString: searchString
+                    },
+                    success: function (data) {
+                        $("#statuswisedata").html(data);
+                        $("#patienttype").html("Pending");
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#statuswisedata").html('An error has occurred');
+                    }
+                })
+
+                break;
+            case 4:
+                $.ajax({
+                    url: "/admin/patientStatusConclude",
+                    type: "POST",
+                    data: {
+                        status: selectedStatus,
+                        region: selectedRegion,
+                        requestType: selectedRequestType,
+                        searchString: searchString
+                    },
+                    success: function (data) {
+                        $("#statuswisedata").html(data);
+                        $("#patienttype").html("Conclude");
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#statuswisedata").html('An error has occurred');
+                    }
+                })
+
+                break;
+            case 5:
+                $.ajax({
+                    url: "/admin/patientStatusToClose",
+                    type: "POST",
+                    data: {
+                        status: selectedStatus,
+                        region: selectedRegion,
+                        requestType: selectedRequestType,
+                        searchString: searchString
+                    },
+                    success: function (data) {
+                        $("#statuswisedata").html(data);
+                        $("#patienttype").html("Close");
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#statuswisedata").html('An error has occurred');
+                    }
+                })
+
+                break;
+            case 6:
+                $.ajax({
+                    url: "/admin/patientStatusUnpaid",
+                    type: "POST",
+                    data: {
+                        status: selectedStatus,
+                        region: selectedRegion,
+                        requestType: selectedRequestType,
+                        searchString: searchString
+                    },
+                    success: function (data) {
+                        $("#statuswisedata").html(data);
+                        $("#patienttype").html("Unpaid");
+                    },
+                    error: function () {
+                        alert("No Projects Found");
+                        $("#statuswisedata").html('An error has occurred');
+                    }
+                })
+
+                break;
+
+        }
+    }
+
+    $(document).ready(function () {
+        loadData();
+    })
+
+</script>
+
+@*
 <script>
     $(document).ready(function () {
         load();
@@ -333,6 +466,20 @@
         });
     });
 
+    $('#cancelcase').click(function () {
+        $.ajax({
+            url: "/Admin/CancelCase",
+            type: "POST",
+            dataType: "html",
+            success: function (data) {
+                $("#casewisedata").html(data);
+            },
+            error: function () {
+                alert("No Projects Found");
+                $("#casewisedata").html('An error has occurred');
+            }
+        });
+    });
 
     // function cancelModal(reqId, firstname) {
     //     debugger
@@ -415,390 +562,6 @@
     // } ").show();
     //         }
 
-    // function assignModal(reqId) {
-    //     debugger
-    //     document.getElementById("requestId_Assign").value = reqId;
-    //     $("assignCase").show();
-    // }
-    // function blockModal(reqId, firstname, email, phone) {
-    //     debugger
-    //     document.getElementById("requestIdForBlock").value = reqId;
-    //     document.getElementById("firstNameForBlockCase").innerHTML = firstname;
-    //     document.getElementById("emailForBlock").value = email;
-    //     document.getElementById("phoneForBlock").value = phone;
-    //     $("blockModal").show();
-    // }
-
-    // function cancelData() {
-    //     debugger
-    //     var reason = document.getElementById("SelectData").value;
-    //     var notes = document.getElementById("notes").value;
-    //     var reqid = document.getElementById("reqId").value;
-
-    //     $.ajax({
-    //         url: '/admin/cancelCase',
-    //         type: 'POST',
-    //         data: {
-    //             reqId: reqid,
-    //             reason: reason,
-    //             notes: notes,
-    //         },
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 alert("Success");
-    //                 window.location.reload();
-    //             }
-    //         },
-    //         error: function () {
-    //             alert('Error');
-    //         }
-    //     })
-    // }
-
-    // function blockData() {
-    //     debugger
-    //     var reason = document.getElementById("reasonForBlock").value;
-    //     var reqid = document.getElementById("requestIdForBlock").value;
-    //     var email = document.getElementById("emailForBlock").value;
-    //     var phone = document.getElementById("phoneForBlock").value;
-
-    //     $.ajax({
-    //         url: '/admin/BlockCase',
-    //         type: 'POST',
-    //         data: {
-    //             reqId: reqid,
-    //             reason: reason,
-    //             email: email,
-    //             phone: phone,
-    //         },
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 alert("Success");
-    //                 window.location.reload();
-    //             }
-    //         },
-    //         error: function () {
-    //             alert('Error');
-    //         }
-    //     })
-    // }
-
-</script>
-
-<script>
-    var newBtn = document.getElementById("newbtn");
-    var pendingBtn = document.getElementById("pendingbtn");
-    var activeBtn = document.getElementById("activebtn");
-    var concludeBtn = document.getElementById("concludebtn");
-    var tocloseBtn = document.getElementById("toclosebtn");
-    var unpaidBtn = document.getElementById("unpaidbtn");
-    var total = document.querySelectorAll("div.admindashrow button.btn-lg");
-    var count = total.length;
-
-    newBtn.addEventListener('click', () => {
-        for (let i = 0; i < count; i++) {
-            if (total[i].id == "newbtn") {
-                total[i].classList.add("active");
-            }
-            else {
-                total[i].classList.remove("active");
-            }
-        }
-    });
-
-    pendingBtn.addEventListener('click', () => {
-        for (let i = 0; i < count; i++) {
-            if (total[i].id == "pendingbtn") {
-                total[i].classList.add("active");
-            }
-            else {
-                total[i].classList.remove("active");
-            }
-        }
-    });
-
-    activeBtn.addEventListener('click', () => {
-        for (let i = 0; i < count; i++) {
-            if (total[i].id == "activebtn") {
-                total[i].classList.add("active");
-            }
-            else {
-                total[i].classList.remove("active");
-            }
-        }
-    });
-
-    concludeBtn.addEventListener('click', () => {
-        for (let i = 0; i < count; i++) {
-            if (total[i].id == "concludebtn") {
-                total[i].classList.add("active");
-            }
-            else {
-                total[i].classList.remove("active");
-            }
-        }
-    });
-
-    tocloseBtn.addEventListener('click', () => {
-        for (let i = 0; i < count; i++) {
-            if (total[i].id == "toclosebtn") {
-                total[i].classList.add("active");
-            }
-            else {
-                total[i].classList.remove("active");
-            }
-        }
-    });
-
-    unpaidBtn.addEventListener('click', () => {
-        for (let i = 0; i < count; i++) {
-            if (total[i].id == "unpaidbtn") {
-                total[i].classList.add("active");
-            }
-            else {
-                total[i].classList.remove("active");
-            }
-        }
-    });
-
-</script>
-
-@* <script>
-
-    var selectedStatus = 1;
-    var selectedRegion = 0;
-    var selectedRequestType = 0;
-    var searchString = "";
-
-    function changeStatus(newStatus) {
-        selectedStatus = parseInt(newStatus);
-        loadData();
-    }
-
-    function changeRegion() {
-
-    }
-
-    function changeRequestType(newRequestType) {
-        selectedRequestType = newRequestType;
-        loadData();
-    }
-
-    function changeSearchString(newSeachString) {
-        searchString = newSeachString;
-        loadData();
-    }
-
-    function loadData() {
-        switch (selectedStatus) {
-            case 1:
-                $.ajax({
-                    url: "/admin/patientStatusNew",
-                    type: "POST",
-                    data: {
-                        status: selectedStatus,
-                        region: selectedRegion,
-                        requestType: selectedRequestType,
-                        searchString: searchString
-                    },
-                    success: function (data) {
-                        $("#statuswisedata").html(data);
-                        $("#patienttype").html("New");
-                    },
-                    error: function () {
-                        alert("No Projects Found");
-                        $("#statuswisedata").html('An error has occurred');
-                    }
-                })
-
-                break;
-            case 2:
-                $.ajax({
-                    url: "/admin/patientStatusPending",
-                    type: "POST",
-                    data: {
-                        status: selectedStatus,
-                        region: selectedRegion,
-                        requestType: selectedRequestType,
-                        searchString: searchString
-                    },
-                    success: function (data) {
-                        $("#statuswisedata").html(data);
-                        $("#patienttype").html("Pending");
-                    },
-                    error: function () {
-                        alert("No Projects Found");
-                        $("#statuswisedata").html('An error has occurred');
-                    }
-                })
-
-                break;
-            case 3:
-                $.ajax({
-                    url: "/admin/patientStatusActive",
-                    type: "POST",
-                    data: {
-                        status: selectedStatus,
-                        region: selectedRegion,
-                        requestType: selectedRequestType,
-                        searchString: searchString
-                    },
-                    success: function (data) {
-                        $("#statuswisedata").html(data);
-                        $("#patienttype").html("Pending");
-                    },
-                    error: function () {
-                        alert("No Projects Found");
-                        $("#statuswisedata").html('An error has occurred');
-                    }
-                })
-
-                break;
-            case 4:
-                $.ajax({
-                    url: "/admin/patientStatusConclude",
-                    type: "POST",
-                    data: {
-                        status: selectedStatus,
-                        region: selectedRegion,
-                        requestType: selectedRequestType,
-                        searchString: searchString
-                    },
-                    success: function (data) {
-                        $("#statuswisedata").html(data);
-                        $("#patienttype").html("Conclude");
-                    },
-                    error: function () {
-                        alert("No Projects Found");
-                        $("#statuswisedata").html('An error has occurred');
-                    }
-                })
-
-                break;
-            case 5:
-                $.ajax({
-                    url: "/admin/patientStatusClose",
-                    type: "POST",
-                    data: {
-                        status: selectedStatus,
-                        region: selectedRegion,
-                        requestType: selectedRequestType,
-                        searchString: searchString
-                    },
-                    success: function (data) {
-                        $("#statuswisedata").html(data);
-                        $("#patienttype").html("Close");
-                    },
-                    error: function () {
-                        alert("No Projects Found");
-                        $("#statuswisedata").html('An error has occurred');
-                    }
-                })
-
-                break;
-            case 6:
-                $.ajax({
-                    url: "/admin/patientStatusUnpaid",
-                    type: "POST",
-                    data: {
-                        status: selectedStatus,
-                        region: selectedRegion,
-                        requestType: selectedRequestType,
-                        searchString: searchString
-                    },
-                    success: function (data) {
-                        $("#statuswisedata").html(data);
-                        $("#patienttype").html("Unpaid");
-                    },
-                    error: function () {
-                        alert("No Projects Found");
-                        $("#statuswisedata").html('An error has occurred');
-                    }
-                })
-
-                break;
-
-        }
-    }
-
-    $(document).ready(function () {
-        loadData();
-    })
-
-    function cancelModal(reqId, firstname) {
-        debugger
-        document.getElementById("reqId").value = reqId;
-        document.getElementById("firstName").innerHTML = firstname;
-        $("dashboardModal").show();
-    }
-
-    function assignModal(reqId) {
-        debugger
-        document.getElementById("requestId_Assign").value = reqId;
-        $("assignCase").show();
-    }
-    function blockModal(reqId, firstname, email, phone) {
-        debugger
-        document.getElementById("requestIdForBlock").value = reqId;
-        document.getElementById("firstNameForBlockCase").innerHTML = firstname;
-        document.getElementById("emailForBlock").value = email;
-        document.getElementById("phoneForBlock").value = phone;
-        $("blockModal").show();
-    }
-
-    function cancelData() {
-        debugger
-        var reason = document.getElementById("SelectData").value;
-        var notes = document.getElementById("notes").value;
-        var reqid = document.getElementById("reqId").value;
-
-        $.ajax({
-            url: '/admin/cancelCase',
-            type: 'POST',
-            data: {
-                reqId: reqid,
-                reason: reason,
-                notes: notes,
-            },
-            success: function (response) {
-                if (response.success) {
-                    alert("Success");
-                    window.location.reload();
-                }
-            },
-            error: function () {
-                alert('Error');
-            }
-        })
-    }
-
-    function blockData() {
-        debugger
-        var reason = document.getElementById("reasonForBlock").value;
-        var reqid = document.getElementById("requestIdForBlock").value;
-        var email = document.getElementById("emailForBlock").value;
-        var phone = document.getElementById("phoneForBlock").value;
-
-        $.ajax({
-            url: '/admin/blockCase',
-            type: 'POST',
-            data: {
-                reqId: reqid,
-                reason: reason,
-                email: email,
-                phone: phone,
-            },
-            success: function (response) {
-                if (response.success) {
-                    alert("Success");
-                    window.location.reload();
-                }
-            },
-            error: function () {
-                alert('Error');
-            }
-        })
-    }
 </script>
 
  *@

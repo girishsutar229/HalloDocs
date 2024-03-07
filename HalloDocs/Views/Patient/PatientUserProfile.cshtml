@@ -54,7 +54,7 @@
                 <div class=" row input-group mb-3 justify-content-between align-items-center">
                     <div class="col-12 col-md-6 col-lg-6 mb-3 ">
                         <div class="form-floating ">
-                            <input asp-for="@Model.ProfileEdited.ContryCode" id="CountryCode" type="hidden" />
+                            <input asp-for="@Model.ProfileEdited.ContryCode" id="CountryCode" value="@Model.User.ContryCode" type="hidden" disabled />
                             <input asp-for="@Model.ProfileEdited.Mobile" type="tel" value="+@Model.User.ContryCode@Model.User.Mobile" class="form-control pt-3 pb-3" id="PhoneNumber"  onchange="validatePhoneNumber()" disabled>
                             <span id="textChange"></span>
                         </div>

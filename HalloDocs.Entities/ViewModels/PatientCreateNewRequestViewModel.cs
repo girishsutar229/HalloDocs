@@ -58,7 +58,9 @@ namespace HalloDocs.Entities.ViewModels
         [StringLength(20)]
         public string? PatientRelationName { get; set; }
 
-        public List<IFormFile> formFile { get; set; }
+        public List<IFormFile>? formFile { get; set; }
+
+        public List<User>? userList { get; set; } =new List<User>();
 
         public string? Longitude { get; set; }
 

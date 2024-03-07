@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,12 +21,7 @@ namespace HalloDocs.Entities.ViewModels
 
         public string RequestLastName { get; set; } = null!;
 
-        public string? PatientSymptoms { get; set; }
-        public string PhysicianName { get; set; } = null!;
-
-        public DateOnly DateOfBirth { get; set; }
-
-        public int? Age { get; set; }
+        public int Age { get; set; }
 
         public string Requestor { get; set; } = null!;
 
@@ -36,9 +32,17 @@ namespace HalloDocs.Entities.ViewModels
 
         public DateTime? RequestedDate { get; set; }
 
-        [StringLength(5)]
-        public string? ClientCountryCode { get; set; }
+        [StringLength(20)]
+        public string? ConfirmationNumber { get; set; }
 
+        public string? PatientSymptoms { get; set; }
+        [StringLength(10)]
+
+        public string ClientEmail { get; set; } = null!;
+
+        public string? ClientFirstName { get; set; }
+        public string? ClientLastName { get; set; }
+        public string? ClientCountryCode { get; set; }
         public string? ClientPhoneNumber { get; set; } = null!;
 
         [StringLength(500)]
@@ -54,27 +58,15 @@ namespace HalloDocs.Entities.ViewModels
 
         [StringLength(10)]
         public string? ClientZipCode { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         [StringLength(100)]
         public string? PatientRoom { get; set; }
 
         public DateTime? DateOfService { get; set; }
 
-        public string? Notes { get; set; }
-
         public short Status { get; set; }
-
-        public string ClientEmail { get; set; } = null!;
-
-        public string? ClientFirstName { get; set; }
-
-        public string? ClientLastName { get; set; }
-
-        [StringLength(20)]
-        public string? ConfirmationNumber { get; set; }
-
-
-        public IEnumerable<Region> regions { get; set; }
+        public string? Notes { get; set; }
 
         public int? countNew { get; set; }
 
@@ -88,6 +80,8 @@ namespace HalloDocs.Entities.ViewModels
 
         public int? countUnpaid { get; set; }
 
+        public string? PhysicianName { get; set; }
+        public IEnumerable<Region> regions { get; set; }
 
     }
 }
